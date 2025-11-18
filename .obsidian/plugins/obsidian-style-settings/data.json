@@ -1,0 +1,7 @@
+{
+  "catppuccin-theme-settings@@catppuccin-theme-dark": "ctp-macchiato",
+  "catppuccin-icon-styles@@ctp-icon-hide": false,
+  "catppuccin-tag-styles@@ctp-tag-pill": false,
+  "catppuccin-tag-styles@@ctp-tag-pill-color": "var(--ctp-accent)",
+  "catppuccin-interface-styles@@ctp-bold-folder-title": true
+}
