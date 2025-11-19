@@ -1,7 +1,9 @@
 {
-  "showLineNumber": true,
-  "vimMode": false,
+  "showLineNumber": false,
+  "vimMode": true,
   "promptDelete": false,
   "useMarkdownLinks": true,
-  "newLinkFormat": "relative"
+  "newLinkFormat": "relative",
+  "defaultViewMode": "preview",
+  "readableLineLength": true
 }
