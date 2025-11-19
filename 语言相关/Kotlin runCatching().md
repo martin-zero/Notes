@@ -1,5 +1,5 @@
 ---
-language: kotlin
+语言: "#kotlin"
 ---
 
 > runCatching是Kotlin标准库中常用于异常处理的函数式工具，相比于传统try-catch方法具有**可读性强**、**支持函数式编程的链式调用**、**防止嵌套地狱**等优点。
