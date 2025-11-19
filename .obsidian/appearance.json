@@ -3,5 +3,6 @@
   "interfaceFontFamily": "Google Sans Code",
   "translucency": false,
   "cssTheme": "Catppuccin",
-  "nativeMenus": true
+  "nativeMenus": true,
+  "showRibbon": true
 }

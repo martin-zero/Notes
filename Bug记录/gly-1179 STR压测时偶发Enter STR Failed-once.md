@@ -2,10 +2,48 @@
 tags:
   - 休眠
 ---
-## 关键异常：
-```c
-# qnx log
-Client "display_client.0" sent in band ack (rc=16,state=suspend)
+## 问题描述
+```
+Precondition  
+台架压测  
+Operation  
+1.STR压测  
+Observation  
+
+STR压测时偶发enter str fail  
+串口打印：[qcore io_devctl:1644] Client "display_client.0" sent in band ack (rc=16,state=suspend)  
+Expectation  
+无异常现象  
+Clearing  
+  
+Notes  
+BUILD_ID=rb-geely-idc20_oneos_kx11-a3-sop_bosch_dev_2025.43.8  
+BUILD_TIMESTAMP=2025-10-26 11:19:00 UTC  
+MANIFESTS_REVISION=a3d95ada64a45dcc88602e5778bff61c13f74d41  
+MANIFEST_FILE=manifest.xml  
+BUILD_MODE=remake  
+TARGET_PRODUCT=8155  
+TARGET_BUILD_VARIANT=userdebug  
+SECURE_BOOT=rbxc  
+BUILD_TAG=  
+MAIN_VERSION=rb-geely-idc20_oneos_kx11-a3-sop_bosch_dev_2025.43.8  
+SOC_VERSION=rb-geely-idc20_oneos_kx11-a3-sop_bosch_dev_2025.43.8  
+PROJECT_ID=ECARX_DHU  
+DATE_TIME_LONG=  
+
+
+测试人员：xu zhixin
+
+Test Setup & Environment
+台架 
+Software Configuration & Navigation Data Carrier:  
+RAS0525441254411  
+rb-geely-idc20_oneos_kx11-a3-sop_bosch_dev_2025.43.8  
+Hardware Sample Revision:
+GLY_VAVE3_128G_外置  
+Test Vehicle/Bench Setup:
+
+Used Test Media & Phones:
 ```
 
 ## 分析过程
@@ -48,3 +86,7 @@ Client "display_client.0" sent in band ack (rc=16,state=suspend)
 > [!NOTE] 指南
 > PowerManagerService:负责管理休眠、唤醒、屏幕、亮度和节能策略。
 > DisplayPowerController:直接控制屏幕的开关、亮度、休眠等状态。
+
+
+## 结论
+休眠失败是由于com.geely.permission.service发出权限申请弹窗，导致窗口可见性发生变化，触发亮屏机制，属于Andorid正常的系统机制。
