@@ -83,7 +83,7 @@ Used Test Media & Phones:
 ```
 可以得出是由于`com.geely.permission.service`发出弹窗导致了窗口可见性发生变化，触发亮屏机制。
 
-> [!NOTE] 解释
+> [!NOTE] 收获
 > PowerManagerService:负责管理休眠、唤醒、屏幕、亮度和节能策略。
 > DisplayPowerController:直接控制屏幕的开关、亮度、休眠等状态。
 
