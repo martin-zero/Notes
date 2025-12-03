@@ -4,7 +4,7 @@ tags:
 ---
 	Notepad++的搜索功能在日常工作中查看日志排查问题时非常方便，但是由于Notepad++只有Win版本，通过偶然的机会了解到vimgrep命令，所以想在nvim中实现Notepad++的搜索功能。
 
-## vimgrep
+# vimgrep
 `vimgrep` 是 Vim/Neovim 自带的“正则全文搜索命令”，用于在一个或多个文件中查找内容，并把结果放进 QuickFix（或 Location List）里。
 
 ### 命令格式
@@ -24,3 +24,4 @@ tags:
 | \*\*/\*.c | 递归搜索所有.c文件   |
 | \*\*/\*   | 递归搜索所有文件     |
 | ##        | 所有已打开的buffer |
+
