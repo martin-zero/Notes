@@ -1,6 +1,6 @@
 ---
 tags:
-  - cmake
+  - "#工具/cmake"
 ---
 
 ## 生成compile_commands.json
