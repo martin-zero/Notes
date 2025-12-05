@@ -1,6 +1,6 @@
 ---
 tags:
-  - neovim
+  - 工具/neovim
 ---
 
 ## c++ LSP服务器
