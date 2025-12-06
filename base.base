@@ -6,14 +6,19 @@ views:
     filters:
       and:
         - file.ext == "md"
+    groupBy:
+      property: file.folder
+      direction: ASC
     order:
       - file.name
       - tags
       - file.ctime
       - file.mtime
     sort:
-      - property: file.tags
+      - property: tags
         direction: DESC
+      - property: file.name
+        direction: ASC
     columnSize:
-      file.name: 764
+      file.name: 1306
       note.tags: 323
