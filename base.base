@@ -1,0 +1,19 @@
+formulas:
+  未命名: ""
+views:
+  - type: table
+    name: 视图
+    filters:
+      and:
+        - file.ext == "md"
+    order:
+      - file.name
+      - tags
+      - file.ctime
+      - file.mtime
+    sort:
+      - property: file.tags
+        direction: DESC
+    columnSize:
+      file.name: 764
+      note.tags: 323
