@@ -1,6 +1,6 @@
 ---
 tags:
-  - "#语言/kotlin"
+  - "#lang/kotlin"
   - 范式/FP
 ---
 
