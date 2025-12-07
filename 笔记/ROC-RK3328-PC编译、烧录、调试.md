@@ -4,6 +4,7 @@ tags:
 ---
 
 
->(官网wiki)[https://wiki.t-firefly.com/zh_CN/ROC-RK3328-PC/android_adb.html]
+>[!链接]
+>https://wiki.t-firefly.com/zh_CN/ROC-RK3328-PC/android_adb.html
 
 
