@@ -16,24 +16,26 @@ tags:
 ./FFTools/mkupdate/mkupdate.sh -l roc_rk3328_pc_32-userdebug
 ```
 
-
-## 编译内核
+## 模块化编译
+### 编译内核
 ```shell
  ./FFTools/make.sh -b -j8 
 ```
 
-## 编译U-Boot
+### 编译U-Boot
 ```shell
 ./FFTools/make.sh -u -j8
 ```
 
-## 编译Android
+### 编译Android
 ```shell
 ./FFTools/make.sh -a -j8
 ```
 
-## 编译全部分区
+### 编译全部分区
 ```shell
 ./FFTools/make.sh -j8
 ```
 
+
+## 不使用脚本编译
