@@ -6,5 +6,6 @@
   "newLinkFormat": "relative",
   "defaultViewMode": "preview",
   "readableLineLength": true,
-  "attachmentFolderPath": "assets/Bug分析记录"
+  "attachmentFolderPath": "assets/Bug分析记录",
+  "newFileLocation": "current"
 }
