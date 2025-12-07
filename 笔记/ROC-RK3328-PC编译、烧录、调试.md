@@ -10,3 +10,9 @@ tags:
 
 
 # 编译
+## 32位整编
+```shell
+./FFTools/make.sh -d roc-rk3328-pc -j8 -l roc_rk3328_pc_32-userdebug
+./FFTools/mkupdate/mkupdate.sh -l roc_rk3328_pc_32-userdebug
+```
+
