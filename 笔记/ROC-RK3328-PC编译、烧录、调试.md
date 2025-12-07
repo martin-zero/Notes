@@ -17,7 +17,19 @@ tags:
 ```
 
 
-## 内核
+## 编译内核
 ```shell
-
+ ./FFTools/make.sh -b -j8 
 ```
+
+## 编译U-Boot
+```shell
+./FFTools/make.sh -u -j8
+```
+
+## 编译Android
+```shell
+./FFTools/make.sh -a -j8
+```
+
+## 编译
