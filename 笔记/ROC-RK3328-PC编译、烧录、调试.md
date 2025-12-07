@@ -83,3 +83,4 @@ sudo upgrade_tool di -vbmeta vbmeta.img
 
 
 # 调试
+## scrcpy 
