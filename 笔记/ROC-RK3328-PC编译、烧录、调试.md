@@ -45,3 +45,23 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 ```
+
+### 编译内核
+```shell
+make ARCH=arm64 firefly_defconfig android-10.config
+make ARCH=arm64 -j8 BOOT_IMG=../rockdev/Image-roc_rk3328_pc_32/boot.img roc-rk3328-pc.img
+```
+
+### 编译 U-Boot
+```shell
+./make.sh rk3328
+```
+
+### 编译 Android
+```shell
+source build/envsetup.sh
+lunch roc_rk3328_pc_32-userdebug
+make installclean
+make -j8
+./mkimage.sh
+```
