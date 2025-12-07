@@ -1,6 +1,6 @@
 ---
 tags:
-  - STR
+  - Subsystem/STR
 ---
 ## 问题描述
 ```
