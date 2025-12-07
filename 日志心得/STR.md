@@ -1,6 +1,6 @@
 ---
 tags:
-  - Subsystem/STR
+  - Android/FWK/STR
 date: 2025-11-28
 ---
 ## 问题描述

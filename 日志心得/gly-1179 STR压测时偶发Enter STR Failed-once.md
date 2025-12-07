@@ -1,6 +1,6 @@
 ---
 tags:
-  - Subsystem/STR
+  - Android/FWK/STR
 ---
 ## 问题描述
 ```
