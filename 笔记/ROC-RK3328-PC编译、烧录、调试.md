@@ -16,3 +16,8 @@ tags:
 ./FFTools/mkupdate/mkupdate.sh -l roc_rk3328_pc_32-userdebug
 ```
 
+
+## 内核
+```shell
+
+```
