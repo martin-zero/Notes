@@ -84,3 +84,5 @@ sudo upgrade_tool di -vbmeta vbmeta.img
 
 # 调试
 ## scrcpy 
+GitHub: https://github.com/Genymobile/scrcpy
+用于在电脑上显示和控制您的安卓设备
