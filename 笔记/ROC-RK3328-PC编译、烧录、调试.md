@@ -68,3 +68,18 @@ make -j8
 
 
 # 烧录
+## Android10使用upgrade_tool烧录各个模块
+```SHELL
+sudo upgrade_tool di -b boot.img
+sudo upgrade_tool di -dtbo dtbo.img  
+sudo upgrade_tool di -misc misc.img
+sudo upgrade_tool di -parameter parameter.txt
+sudo upgrade_tool di -r recovery.img
+sudo upgrade_tool di -super super.img
+sudo upgrade_tool di -trust trust.img
+sudo upgrade_tool di -uboot uboot.img
+sudo upgrade_tool di -vbmeta vbmeta.img
+```
+
+
+# 调试
