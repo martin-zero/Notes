@@ -32,4 +32,8 @@ tags:
 ./FFTools/make.sh -a -j8
 ```
 
-## 编译
+## 编译全部分区
+```shell
+./FFTools/make.sh -j8
+```
+
