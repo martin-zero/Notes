@@ -1,6 +1,7 @@
 ---
 tags:
   - 技术栈/Android/Framework
+  - 子系统/STR
 ---
 ## 问题描述
 ```
