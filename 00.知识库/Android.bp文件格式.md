@@ -1,6 +1,6 @@
 ---
 tags:
-  - Android/FWK/构建
+  - 领域/Android/Framework
 ---
 
 > 在 AOSP 中，Android.bp 是使用 Soong 构建系统 的蓝图文件（Blueprint），用于替代老旧的 Android.mk。它采用的是 JSON 类似的 结构化声明方式，用于描述模块的构建方式，例如 app、库、jar、C/C++ 模块等。
