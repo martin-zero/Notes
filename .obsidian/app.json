@@ -5,7 +5,7 @@
   "useMarkdownLinks": true,
   "newLinkFormat": "relative",
   "defaultViewMode": "preview",
-  "readableLineLength": true,
+  "readableLineLength": false,
   "attachmentFolderPath": "assets/Bug分析记录",
   "newFileLocation": "current"
 }
