@@ -7,5 +7,12 @@
   "defaultViewMode": "preview",
   "readableLineLength": true,
   "attachmentFolderPath": "assets/Bug分析记录",
-  "newFileLocation": "current"
+  "newFileLocation": "current",
+  "showUnsupportedFiles": false,
+  "userIgnoreFilters": [
+    "Excalidraw/",
+    "01.日志分析/assets/",
+    "00.知识库/assets/",
+    "10.模版/"
+  ]
 }
