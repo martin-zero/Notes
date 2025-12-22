@@ -21,7 +21,11 @@ git add
 ```
 
 ```sh
+git commit
+```
 
+```sh
+git reset
 ```
 # 工作流常用命令
 
