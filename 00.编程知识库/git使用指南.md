@@ -3,15 +3,16 @@ tags:
   - 工具/git
   - TODO
 ---
-# 常用命令
-初始化仓库
+# 一般命令
+
+# 工作流常用命令
+
+**交互式添加内容至暂存区**
 ```sh
-git init
+git add -p <文件名>
 ```
 
-克隆仓库
+**修改最后一次本地提交**
 ```sh
-git clone <url>
+git commit --amend
 ```
-
-查看远端
