@@ -10,7 +10,8 @@ tags:
 
 
 # LazyVim
-## c++ LSP服务器
+### 搜索
+`<leader> sb` 搜索当前文件匹配行
 
 ### 跳转
 
