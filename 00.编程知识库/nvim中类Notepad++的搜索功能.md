@@ -25,4 +25,5 @@ tags:
 | \*\*/\*   | 递归搜索所有文件     |
 | ##        | 所有已打开的buffer |
 
-
+# Buffer Lines
+LazyVim自带BufferLines功能，快捷键 <>sb
