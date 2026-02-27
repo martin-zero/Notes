@@ -1,4 +1,5 @@
 # Java Framework调试
+#### 建立连接
 
 **查看所有可调式的java进程**
 ```sh
@@ -16,3 +17,4 @@ adb shell ps -A | grep system_server
 ```sh
 adb forward tcp:8700 jdwp:1234
 ```
+
