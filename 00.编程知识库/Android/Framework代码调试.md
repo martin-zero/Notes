@@ -1,4 +1,6 @@
-# Java Framework命令行调试
+
+# Java Framework调试
+
 ## 建立连接
 
 #### 查看所有可调式的java进程
@@ -26,8 +28,58 @@ jdb -attach localhost:8700
 
 #### 加载源码路径
 进行断点调试需要加载源码路径
-- 可以使用use查看当前源码路径
+- 可以使用`use`查看当前源码路径
 - 可以添加多个源码路径
 ```jdb
 use frameworks/base/services/core/java
 ```
+
+## 代码调试
+
+#### 通过方法名设置断点
+```jdb
+stop in com.android.server.am.ActivityManagerService.systemReady
+```
+
+#### 通过行号设置断点
+```jdb
+stop at com.android.server.am.ActivityManagerService:7421
+```
+
+#### 查看断点
+```jdb
+clear
+```
+
+#### 继续执行
+```jdb
+cont
+```
+
+#### 查看调用栈
+```jdb
+where
+```
+
+#### 查看局部变量
+```jdb
+locals
+```
+
+#### 查看对象
+```jdb
+print obj
+```
+
+#### 单步执行
+```jdb
+step     // 进入函数
+next     // 不进入函数
+```
+
+#### 查看线程
+```
+threads
+thread <id>
+```
+
