@@ -4,5 +4,6 @@
   "catppuccin-tag-styles@@ctp-tag-pill": false,
   "catppuccin-tag-styles@@ctp-tag-pill-color": "var(--ctp-accent)",
   "catppuccin-interface-styles@@ctp-bold-folder-title": true,
-  "catppuccin-theme-settings@@catppuccin-theme-accents": "ctp-accent-blue"
+  "catppuccin-theme-settings@@catppuccin-theme-accents": "ctp-accent-blue",
+  "blue-topaz-theme@@color-scheme-options": "color-scheme-options-autumn-topaz"
 }
