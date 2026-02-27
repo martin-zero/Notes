@@ -18,3 +18,8 @@ adb shell ps -A | grep system_server
 adb forward tcp:8700 jdwp:1234
 ```
 
+**启动jdb并attach**
+```sh
+jdb -attach localhost:8700
+```
+
