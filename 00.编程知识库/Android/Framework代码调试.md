@@ -19,8 +19,9 @@ adb forward tcp:8700 jdwp:1234
 ```
 
 **启动jdb并attach**
+通过8700端口进行jdb调试
 ```sh
 jdb -attach localhost:8700
 ```
 
-加载源码路径
+**加载源码路径**
