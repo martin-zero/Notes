@@ -109,6 +109,21 @@ prebuilts/clang/host/linux-x86/llvm-binutils-stable/llvm-lldb
 prebuilts/clang/host/linux-x86/clang-*/bin/lldb
 ```
 
+#### 加载带符号的可执行文件
+```lldb
+file out/target/product/xxx/symbols/system/bin/surfaceflinger
+```
+
+#### 连接远程设备
+```lldb
+gdb-remote 5039
+```
+
+#### 设置源码路径
+```lldb
+
+```
+
 ## 代码调试
 
 
