@@ -1,7 +1,7 @@
-# Java Framework调试
-#### 建立连接
+# Java Framework命令行调试
+## 建立连接
 
-**查看所有可调式的java进程**
+#### 查看所有可调式的java进程
 ```sh
 adb jdwp
 ```
@@ -25,3 +25,4 @@ jdb -attach localhost:8700
 ```
 
 **加载源码路径**
+进行断点调试需要加载源码路径
