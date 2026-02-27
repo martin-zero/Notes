@@ -101,6 +101,14 @@ lldb-server g :5039 --attach 542
 adb forward tcp:5039 tcp:5039
 ```
 
+#### 启用LLDB
+启动AOSP自带LLDB
+```sh
+prebuilts/clang/host/linux-x86/llvm-binutils-stable/llvm-lldb
+或
+prebuilts/clang/host/linux-x86/clang-*/bin/lldb
+```
+
 ## 代码调试
 
 
