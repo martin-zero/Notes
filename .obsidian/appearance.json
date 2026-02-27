@@ -1,8 +1,8 @@
 {
-  "theme": "moonstone",
+  "theme": "obsidian",
   "interfaceFontFamily": "Google Sans Code",
   "translucency": false,
-  "cssTheme": "Catppuccin",
+  "cssTheme": "Blue Topaz",
   "nativeMenus": true,
   "showRibbon": true
 }
