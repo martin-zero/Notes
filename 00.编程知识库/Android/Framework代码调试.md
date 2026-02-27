@@ -26,7 +26,8 @@ jdb -attach localhost:8700
 
 #### 加载源码路径
 进行断点调试需要加载源码路径
-可以使用use查看
+- 可以使用use查看当前源码路径
+- 可以添加多个源码路径
 ```jdb
 use frameworks/base/services/core/java
 ```
