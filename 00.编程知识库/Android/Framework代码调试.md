@@ -23,3 +23,4 @@ adb forward tcp:8700 jdwp:1234
 jdb -attach localhost:8700
 ```
 
+加载源码路径
