@@ -120,12 +120,63 @@ gdb-remote 5039
 ```
 
 #### 设置源码路径
+将设备编译时/buildbot/aosp路径与本地/home/user/aosp（根据本地路径替换）相连接
 ```lldb
-
+settings set target.source-map /buildbot/aosp /home/user/aosp
 ```
 
 ## 代码调试
+#### 查看调用栈
+```lldb
+bt
+```
 
+#### 根据函数名设置断点
+```lldb
+breakpoint set --name SurfaceFlinger::commit
+```
+
+#### 根据行号设置断点
+```lldb
+breakpoint set --file SurfaceFlinger.cpp --line 2100
+```
+
+#### 继续执行
+```lldb
+continue
+```
+
+#### 单步执行
+```lldb
+next
+step
+```
+
+#### 查看变量
+```lldb
+frame variable
+p mCurrentState
+```
+
+#### 查看线程
+```lldb
+thread list
+```
+
+#### 切换线程
+```lldb
+thread select 5
+```
+
+#### 查看寄存器
+```lldb
+register read
+```
+
+#### 查看共享库
+```lldb
+image list
+```
 
 # 常见问题
 
