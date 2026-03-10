@@ -9,5 +9,8 @@
   "blue-topaz-theme@@background-settings-workplace-background-image": false,
   "blue-topaz-theme@@background-image-settings-switch": false,
   "blue-topaz-theme@@toggle-bg-panel-page": false,
-  "Blue-Topaz-Codebox-Highlight@@code-theme-selection": "code-theme-bt-default"
+  "Blue-Topaz-Codebox-Highlight@@code-theme-selection": "code-theme-custom",
+  "Blue-Topaz-Codebox-Highlight@@nowrap-edit-codebox": true,
+  "Blue-Topaz-Codebox-Highlight@@code-line-number": false,
+  "Blue-Topaz-Codebox-Highlight@@code-box-style-option": "codebox-default-style"
 }
