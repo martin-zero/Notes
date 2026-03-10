@@ -9,8 +9,8 @@ tags:
 
 ## Init
 Init进程是Android用户空间的第一个进程，进程号为1，代码路径为`system/core/init/main.cpp`。
-Init内部执行细分了三个阶段: FirstStageMain、SetupSelinux、SecondStageMain。
-### FirstStageMain
+Init内部执行细分了三个阶段: FirstStage、SetupSelinux、SecondStage。
+### FirstStage
 
 
 ## Zygote
