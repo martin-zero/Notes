@@ -43,4 +43,4 @@ int main(int argc, char** argv) {
 }
 ```
 
-FirstStage阶段主要负责**创建并挂载基本的文件系统**搭建基础环境。
+FirstStage阶段主要负责初始化基础环境、挂载核心文件系统。
