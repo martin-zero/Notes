@@ -6,7 +6,7 @@ tags:
 
 ## Kernel
 引导阶段、Linux Kernel启动阶段见[Linux启动流程](../01.嵌入式/Linux启动流程.md)。
-
+#TODO 差异化 
 ## Init
 Init进程是Android用户空间的第一个进程，进程号为1，其main函数的代码路径为[`system/core/init/main.cpp`](https://cs.android.com/android/platform/superproject/+/android-latest-release:system/core/init/main.cpp;l=1?q=init%2Fmain&ss=android%2Fplatform%2Fsuperproject&hl=zh-cn)，main函数中init分为三个阶段，分别为FirstStage、SetupSelinux、SecondStage。
 ```cpp
@@ -43,4 +43,4 @@ int main(int argc, char** argv) {
 }
 ```
 
-在FirstStage阶段，Android主要挂载了
+在FirstStage阶段，Android
