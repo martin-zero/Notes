@@ -43,4 +43,4 @@ int main(int argc, char** argv) {
 }
 ```
 
-在FirstStage阶段，Android
+FirstStage阶段主要负责**创建并挂载基本的文件系统**。
