@@ -43,4 +43,4 @@ int main(int argc, char** argv) {
 }
 ```
 
-在FirstStage阶段，
+在FirstStage阶段，Android主要挂载了
