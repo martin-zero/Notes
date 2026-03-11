@@ -16,4 +16,4 @@ Init进程是Android用户空间的第一个进程，进程号为1，其main.cpp
 - 完成以上步骤后init不会退出，而是进入了一个事件循环。主要监听**property 变化**，**service 进程状态**等事件。
 
 ## Zygote
-Java层的所有进程都是由Zygote fork出来的
+Zygote进程是在init.rc文件中声明，由init进程启动的，在Android系统的运行过程中起着非常重要的作用，Java层的所有进程都是由Zygote fork出来的。
