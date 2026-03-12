@@ -18,6 +18,6 @@ Init进程是Android用户空间的第一个进程，进程号为1，其main.cpp
 ## Zygote
 Zygote进程是在init.rc文件中声明，由init进程启动的，在Android系统的运行过程中起着非常重要的作用，**Java层的所有进程都是由Zygote fork出来的**。
 init进程显示通过解析init.rc文件执行[`frameworks/base/cmds/app_process/app_main.cpp`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/cmds/app_process/app_main.cpp;l=1;bpv=0;bpt=1?q=App_main.cpp&sq=&ss=android%2Fplatform%2Fsuperproject%2Fmain&hl=zh-cn)中的main，
-app_process的app_main负责**创建和初始化JVM虚拟机、准备Java环境**。
+app_process的app_main负责**创建JVM虚拟机、注册JNI、准备Java环境**。
 
-app_main将环境准备好后会执行它Java层ZygoteInit的main函数，它位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下。
+app_main将环境准备好后会执行它Java层ZygoteInit的main函数，它位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，
