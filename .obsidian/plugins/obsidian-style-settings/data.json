@@ -13,5 +13,6 @@
   "Blue-Topaz-Codebox-Highlight@@nowrap-edit-codebox": true,
   "Blue-Topaz-Codebox-Highlight@@code-line-number": false,
   "Blue-Topaz-Codebox-Highlight@@code-box-style-option": "codebox-default-style",
-  "Blue-Topaz-Codebox-Highlight@@whole-code-wrap": false
+  "Blue-Topaz-Codebox-Highlight@@whole-code-wrap": false,
+  "Blue-Topaz-Codebox-Highlight@@muted-code-activeline-bg": true
 }

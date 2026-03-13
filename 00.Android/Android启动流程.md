@@ -56,73 +56,16 @@ int FirstStageMain(int argc, char** argv) {
 #define CHECKCALL(x) \
     if ((x) != 0) errors.emplace_back(#x " failed", errno);
 
-    // 清空权限
+    // 清空权限掩码，让mkdir直接设置文件权限
     umask(0);
 
+	
     CHECKCALL(clearenv());
     CHECKCALL(setenv("PATH", _PATH_DEFPATH, 1));
     // Get the basic filesystem setup we need put together in the initramdisk
     // on / and then we'll let the rc file figure out the rest.
     CHECKCALL(mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755"));
-    CHECKCALL(mkdir("/dev/pts", 0755));
-    CHECKCALL(mkdir("/dev/socket", 0755));
-    CHECKCALL(mkdir("/dev/dm-user", 0755));
-    CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
-#define MAKE_STR(x) __STRING(x)
-    CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
-#undef MAKE_STR
-    std::string cmdline;
-    android::base::ReadFileToString("/proc/cmdline", &cmdline);
-    // Don't expose the raw bootconfig to unprivileged processes.
-    chmod("/proc/bootconfig", 0440);
-    std::string bootconfig;
-    android::base::ReadFileToString("/proc/bootconfig", &bootconfig);
-    gid_t groups[] = {AID_READPROC};
-    CHECKCALL(setgroups(arraysize(groups), groups));
-    CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));
-    CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
-
-    CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
-
-    if constexpr (WORLD_WRITABLE_KMSG) {
-        CHECKCALL(mknod("/dev/kmsg_debug", S_IFCHR | 0622, makedev(1, 11)));
-    }
-
-    CHECKCALL(mknod("/dev/random", S_IFCHR | 0666, makedev(1, 8)));
-    CHECKCALL(mknod("/dev/urandom", S_IFCHR | 0666, makedev(1, 9)));
-
-    // This is needed for log wrapper, which gets called before ueventd runs.
-    CHECKCALL(mknod("/dev/ptmx", S_IFCHR | 0666, makedev(5, 2)));
-    CHECKCALL(mknod("/dev/null", S_IFCHR | 0666, makedev(1, 3)));
-
-    // These below mounts are done in first stage init so that first stage mount can mount
-    // subdirectories of /mnt/{vendor,product}/.  Other mounts, not required by first stage mount,
-    // should be done in rc files.
-    // Mount staging areas for devices managed by vold
-    // See storage config details at http://source.android.com/devices/storage/
-    CHECKCALL(mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
-                    "mode=0755,uid=0,gid=1000"));
-    // /mnt/vendor is used to mount vendor-specific partitions that can not be
-    // part of the vendor partition, e.g. because they are mounted read-write.
-    CHECKCALL(mkdir("/mnt/vendor", 0755));
-    // /mnt/product is used to mount product-specific partitions that can not be
-    // part of the product partition, e.g. because they are mounted read-write.
-    CHECKCALL(mkdir("/mnt/product", 0755));
-
-    // /debug_ramdisk is used to preserve additional files from the debug ramdisk
-    CHECKCALL(mount("tmpfs", "/debug_ramdisk", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
-                    "mode=0755,uid=0,gid=0"));
-
-    // /second_stage_resources is used to preserve files from first to second
-    // stage init
-    CHECKCALL(mount("tmpfs", kSecondStageRes, "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
-                    "mode=0755,uid=0,gid=0"));
-
-    if (IsMicrodroid() && android::virtualization::IsOpenDiceChangesFlagEnabled()) {
-        CHECKCALL(mount("tmpfs", "/microdroid_resources", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
-                        "mode=0750,uid=0,gid=0"));
-    }
-#undef CHECKCALL
+   ... 
 
     SetStdioToDevNull(argv);
     // Now that tmpfs is mounted on /dev and we have /dev/kmsg, we can actually
