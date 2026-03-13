@@ -59,13 +59,14 @@ int FirstStageMain(int argc, char** argv) {
     // 清空权限掩码，让mkdir直接设置文件权限
     umask(0);
 
-	
+	// 初始化环境、创建并挂载核心文件系统
     CHECKCALL(clearenv());
     CHECKCALL(setenv("PATH", _PATH_DEFPATH, 1));
     // Get the basic filesystem setup we need put together in the initramdisk
     // on / and then we'll let the rc file figure out the rest.
     CHECKCALL(mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755"));
    ... 
+
 
     SetStdioToDevNull(argv);
     // Now that tmpfs is mounted on /dev and we have /dev/kmsg, we can actually
