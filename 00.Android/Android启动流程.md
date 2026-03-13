@@ -66,11 +66,14 @@ int FirstStageMain(int argc, char** argv) {
 
 #undef CHECKCALL
 
+	// 将标准输入输出重定向为null
     SetStdioToDevNull(argv);
     // Now that tmpfs is mounted on /dev and we have /dev/kmsg, we can actually
     // talk to the outside world...
+    // 初始化内核日志
     InitKernelLogging(argv);
 
+	// 初始化过程中出现异常系统重启
     if (!errors.empty()) {
         for (const auto& [error_string, error_errno] : errors) {
             LOG(ERROR) << error_string << " " << strerror(error_errno);
