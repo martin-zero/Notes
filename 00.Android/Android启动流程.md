@@ -73,7 +73,6 @@ int FirstStageMain(int argc, char** argv) {
     // 初始化内核日志
     InitKernelLogging(argv);
 
-	// 初始化过程中出现异常系统重启
     if (!errors.empty()) {
         for (const auto& [error_string, error_errno] : errors) {
             LOG(ERROR) << error_string << " " << strerror(error_errno);
@@ -81,6 +80,7 @@ int FirstStageMain(int argc, char** argv) {
         LOG(FATAL) << "Init encountered errors starting first stage, aborting";
     }
 
+	// 第一阶段初始化开始
     LOG(INFO) << "init first stage started!";
 
     auto old_root_dir = std::unique_ptr<DIR, decltype(&closedir)>{opendir("/"), closedir};
