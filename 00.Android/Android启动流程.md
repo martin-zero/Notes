@@ -46,27 +46,25 @@ int main(int argc, char** argv) {
 FirstStage阶段负责**初始化系统基础环境**与**挂载核心文件系统**。
 ```cpp
 int FirstStageMain(int argc, char** argv) {
-    if (REBOOT_BOOTLOADER_ON_PANIC) {
-        InstallRebootSignalHandlers();
-    }
-
-    boot_clock::time_point start_time = boot_clock::now();
-
-    std::vector<std::pair<std::string, int>> errors;
+    
+    ...
+    
+    // 初始化环境、创建并挂载核心文件系统
 #define CHECKCALL(x) \
     if ((x) != 0) errors.emplace_back(#x " failed", errno);
 
     // 清空权限掩码，让mkdir直接设置文件权限
     umask(0);
 
-	// 初始化环境、创建并挂载核心文件系统
     CHECKCALL(clearenv());
     CHECKCALL(setenv("PATH", _PATH_DEFPATH, 1));
     // Get the basic filesystem setup we need put together in the initramdisk
     // on / and then we'll let the rc file figure out the rest.
     CHECKCALL(mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755"));
+   
    ... 
 
+#undef CHECKCALL
 
     SetStdioToDevNull(argv);
     // Now that tmpfs is mounted on /dev and we have /dev/kmsg, we can actually
