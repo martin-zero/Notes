@@ -374,7 +374,7 @@ int main(int argc, char* const argv[])
 ```
 
 ## ZygoteInit
-从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，
+从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，它负责预加载
 
 ```java
  public static void main(String[] argv) {
@@ -419,6 +419,7 @@ int main(int argc, char* const argv[])
 
             // The select loop returns early in the child process after a fork and
             // loops forever in the zygote.
+            // 无限循环，等待fork请求。
             caller = zygoteServer.runSelectLoop(abiList);
         } catch (Throwable ex) {
             Log.e(TAG, "System zygote died with fatal exception", ex);
@@ -431,11 +432,9 @@ int main(int argc, char* const argv[])
 
         // We're in the child process and have exited the select loop. Proceed to execute the
         // command.
+        // 只在子进程中执行
         if (caller != null) {
             caller.run();
         }
     }
-
-...
-
 ```
