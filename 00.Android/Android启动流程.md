@@ -374,7 +374,7 @@ int main(int argc, char* const argv[])
 ```
 
 ## ZygoteInit
-从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[frameworks/base/core/java/com/android/internal/os/ZygoteInit.java](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，它负责**预加载系统资源**（Framework classes、常用资源文件、字体以及共享库等），以便它fork的进程无需引用即可使用。在环境准备就绪后，Zygote会fork出Android系统最重要的服务SystemServer，之后进入无限循环等待fork指令。
+从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[frameworks/base/core/java/com/android/internal/os/ZygoteInit.java](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，它负责**预加载系统资源**（Framework classes、常用资源文件、字体以及共享库等），以便它fork的进程无需引用即可使用。在环境准备就绪后，Zygote会**fork出Android系统最重要的服务SystemServer**，之后**进入无限循环通过ZygoteServer中Socket通信等待fork指令**。
 
 ```java
  public static void main(String[] argv) {
@@ -403,6 +403,8 @@ int main(int argc, char* const argv[])
 
 ...
 
+			// 创建ZygoteServer，用于监听进程创建请求
+			zygoteServer = new ZygoteServer(isPrimaryZygote);
 			// fork SystemServer进程
             if (startSystemServer) {
                 Runnable r = forkSystemServer(abiList, zygoteSocketName, zygoteServer);
