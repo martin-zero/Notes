@@ -357,57 +357,9 @@ int main(int argc, char* const argv[])
         }
     }
 
-    Vector<String8> args;
-    if (!className.empty()) {
-        // We're not in zygote mode, the only argument we need to pass
-        // to RuntimeInit is the application argument.
-        //
-        // The Remainder of args get passed to startup class main(). Make
-        // copies of them before we overwrite them with the process name.
-        args.add(application ? String8("application") : String8("tool"));
-        runtime.setClassNameAndArgs(className, argc - i, argv + i);
+...
 
-        if (!LOG_NDEBUG) {
-          String8 restOfArgs;
-          char* const* argv_new = argv + i;
-          int argc_new = argc - i;
-          for (int k = 0; k < argc_new; ++k) {
-            restOfArgs.append("\"");
-            restOfArgs.append(argv_new[k]);
-            restOfArgs.append("\" ");
-          }
-          ALOGV("Class name = %s, args = %s", className.c_str(), restOfArgs.c_str());
-        }
-    } else {
-        // We're in zygote mode.
-        maybeCreateDalvikCache();
-
-        if (startSystemServer) {
-            args.add(String8("start-system-server"));
-        }
-
-        char prop[PROP_VALUE_MAX];
-        if (property_get(ABI_LIST_PROPERTY, prop, NULL) == 0) {
-            LOG_ALWAYS_FATAL("app_process: Unable to determine ABI list from property %s.",
-                ABI_LIST_PROPERTY);
-            return 11;
-        }
-
-        String8 abiFlag("--abi-list=");
-        abiFlag.append(prop);
-        args.add(abiFlag);
-
-        // In zygote mode, pass all remaining arguments to the zygote
-        // main() method.
-        for (; i < argc; ++i) {
-            args.add(String8(argv[i]));
-        }
-    }
-
-    if (!niceName.empty()) {
-        runtime.setArgv0(niceName.c_str(), true /* setProcName */);
-    }
-
+	// 启动Java层Zygote
     if (zygote) {
         runtime.start("com.android.internal.os.ZygoteInit", args, zygote);
     } else if (!className.empty()) {
@@ -421,4 +373,5 @@ int main(int argc, char* const argv[])
 
 ```
 
+## ZygoteInit
 app_main将环境准备好后会执行它Java层ZygoteInit的main函数，它位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，
