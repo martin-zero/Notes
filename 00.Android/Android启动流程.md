@@ -222,6 +222,7 @@ int SecondStageMain(int argc, char** argv) {
 
 ...
 
+	// 解析init.rc文件，启动系统服务
     ActionManager& am = ActionManager::GetInstance();
     ServiceList& sm = ServiceList::GetInstance();
 
@@ -286,6 +287,7 @@ int SecondStageMain(int argc, char** argv) {
     // Run all property triggers based on current state of the properties.
     am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
 
+	// 死循环
     // Restore prio before main loop
     setpriority(PRIO_PROCESS, 0, 0);
     while (true) {
