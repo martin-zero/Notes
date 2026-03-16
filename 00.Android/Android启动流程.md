@@ -403,7 +403,7 @@ int main(int argc, char* const argv[])
 
 ...
 
-			// 创建ZygoteServer，用于监听进程创建请求
+			// 创建socket服务器，用于接收fork指令
 			zygoteServer = new ZygoteServer(isPrimaryZygote);
 			// fork SystemServer进程
             if (startSystemServer) {
