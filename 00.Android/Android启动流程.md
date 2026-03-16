@@ -444,5 +444,245 @@ int main(int argc, char* const argv[])
 # SystemServer
 zygote fork出SystemServer后会通过反射运行[frameworks/base/services/java/com/android/server/SystemServer.java](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/services/java/com/android/server/SystemServer.java;l=329;drc=61197364367c9e404c7da6900658f1b16c42d0da;bpv=0;bpt=1?q=SystemServer&sq=&ss=android%2Fplatform%2Fsuperproject%2Fmain&hl=zh-cn) 的main方法。main方法中创建了SystemServer的对象并执行其run方法。SystemServer主要负责启动和管理系统服务(如AMS、PSM、WMS等)。
 ```java
+private void run() {
+        TimingsTraceAndSlog t = new TimingsTraceAndSlog();
+        try {
+            t.traceBegin("InitBeforeStartServices");
 
+            // Record the process start information in sys props.
+            SystemProperties.set(SYSPROP_START_COUNT, String.valueOf(mStartCount));
+            SystemProperties.set(SYSPROP_START_ELAPSED, String.valueOf(mRuntimeStartElapsedTime));
+            SystemProperties.set(SYSPROP_START_UPTIME, String.valueOf(mRuntimeStartUptime));
+
+            EventLog.writeEvent(EventLogTags.SYSTEM_SERVER_START,
+                    mStartCount, mRuntimeStartUptime, mRuntimeStartElapsedTime);
+
+            // Set the device's time zone (a system property) if it is not set or is invalid.
+            SystemTimeZone.initializeTimeZoneSettingsIfRequired();
+
+            // If the system has "persist.sys.language" and friends set, replace them with
+            // "persist.sys.locale". Note that the default locale at this point is calculated
+            // using the "-Duser.locale" command line flag. That flag is usually populated by
+            // AndroidRuntime using the same set of system properties, but only the system_server
+            // and system apps are allowed to set them.
+            //
+            // NOTE: Most changes made here will need an equivalent change to
+            // core/jni/AndroidRuntime.cpp
+            if (!SystemProperties.get("persist.sys.language").isEmpty()) {
+                final String languageTag = Locale.getDefault().toLanguageTag();
+
+                SystemProperties.set("persist.sys.locale", languageTag);
+                SystemProperties.set("persist.sys.language", "");
+                SystemProperties.set("persist.sys.country", "");
+                SystemProperties.set("persist.sys.localevar", "");
+            }
+
+            // The system server should never make non-oneway calls
+            Binder.setWarnOnBlocking(true);
+            // The system server should always load safe labels
+            PackageItemInfo.forceSafeLabels();
+
+            // Default to FULL within the system server.
+            SQLiteGlobal.sDefaultSyncMode = SQLiteGlobal.SYNC_MODE_FULL;
+
+            // Deactivate SQLiteCompatibilityWalFlags until settings provider is initialized
+            SQLiteCompatibilityWalFlags.init(null);
+
+            // Here we go!
+            Slog.i(TAG, "Entered the Android system server!");
+            final long uptimeMillis = SystemClock.elapsedRealtime();
+            EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_SYSTEM_RUN, uptimeMillis);
+            if (!mRuntimeRestart) {
+                FrameworkStatsLog.write(FrameworkStatsLog.BOOT_TIME_EVENT_ELAPSED_TIME_REPORTED,
+                        FrameworkStatsLog
+                                .BOOT_TIME_EVENT_ELAPSED_TIME__EVENT__SYSTEM_SERVER_INIT_START,
+                        uptimeMillis);
+            }
+
+            // In case the runtime switched since last boot (such as when
+            // the old runtime was removed in an OTA), set the system
+            // property so that it is in sync. We can't do this in
+            // libnativehelper's JniInvocation::Init code where we already
+            // had to fallback to a different runtime because it is
+            // running as root and we need to be the system user to set
+            // the property. http://b/11463182
+            SystemProperties.set("persist.sys.dalvik.vm.lib.2", VMRuntime.getRuntime().vmLibrary());
+
+            // Mmmmmm... more memory!
+            VMRuntime.getRuntime().clearGrowthLimit();
+
+            // Some devices rely on runtime fingerprint generation, so make sure
+            // we've defined it before booting further.
+            Build.ensureFingerprintProperty();
+
+            // Within the system server, it is an error to access Environment paths without
+            // explicitly specifying a user.
+            Environment.setUserRequired(true);
+
+            // Within the system server, any incoming Bundles should be defused
+            // to avoid throwing BadParcelableException.
+            BaseBundle.setShouldDefuse(true);
+
+            // Within the system server, when parceling exceptions, include the stack trace
+            Parcel.setStackTraceParceling(true);
+
+            // Ensure binder calls into the system always run at foreground priority.
+            BinderInternal.disableBackgroundScheduling(true);
+
+            // Increase the number of binder threads in system_server
+            BinderInternal.setMaxThreads(sMaxBinderThreads);
+
+            // Prepare the main looper thread (this thread).
+            android.os.Process.setThreadPriority(
+                    android.os.Process.THREAD_PRIORITY_FOREGROUND);
+            android.os.Process.setCanSelfBackground(false);
+            Looper.prepareMainLooper();
+            Looper.getMainLooper().setSlowLogThresholdMs(
+                    SLOW_DISPATCH_THRESHOLD_MS, SLOW_DELIVERY_THRESHOLD_MS);
+
+            SystemServiceRegistry.sEnableServiceNotFoundWtf = true;
+
+            // Prepare the thread pool for init tasks that can be parallelized
+            SystemServerInitThreadPool tp = SystemServerInitThreadPool.start();
+            mDumper.addDumpable(tp);
+
+            if (android.server.Flags.earlySystemConfigInit()) {
+                // SystemConfig init is expensive, so enqueue the work as early as possible to allow
+                // concurrent execution before it's needed (typically by ActivityManagerService).
+                // As native library loading is also expensive, this is a good place to start.
+                startSystemConfigInit(t);
+            }
+
+            // Initialize native services.
+            System.loadLibrary("android_servers");
+
+            // Allow heap / perf profiling.
+            initZygoteChildHeapProfiling();
+
+            // Debug builds - spawn a thread to monitor for fd leaks.
+            if (Build.IS_DEBUGGABLE) {
+                spawnFdLeakCheckThread();
+            }
+
+            // Check whether we failed to shut down last time we tried.
+            // This call may not return.
+            performPendingShutdown();
+
+            // Initialize the system context.
+            createSystemContext();
+
+            // Call per-process mainline module initialization.
+            ActivityThread.initializeMainlineModules();
+
+            // Sets the dumper service
+            ServiceManager.addService("system_server_dumper", mDumper);
+            mDumper.addDumpable(this);
+
+            // Create the system service manager.
+            mSystemServiceManager = new SystemServiceManager(mSystemContext);
+            mSystemServiceManager.setStartInfo(mRuntimeRestart,
+                    mRuntimeStartElapsedTime, mRuntimeStartUptime);
+            mDumper.addDumpable(mSystemServiceManager);
+
+            LocalServices.addService(SystemServiceManager.class, mSystemServiceManager);
+
+            // Lazily load the pre-installed system font map in SystemServer only if we're not doing
+            // the optimized font loading in the FontManagerService.
+            if (!com.android.text.flags.Flags.useOptimizedBoottimeFontLoading()
+                    && Typeface.ENABLE_LAZY_TYPEFACE_INITIALIZATION) {
+                Slog.i(TAG, "Loading pre-installed system font map.");
+                Typeface.loadPreinstalledSystemFontMap();
+            }
+
+            // Attach JVMTI agent if this is a debuggable build and the system property is set.
+            if (Build.IS_DEBUGGABLE) {
+                // Property is of the form "library_path=parameters".
+                String jvmtiAgent = SystemProperties.get("persist.sys.dalvik.jvmtiagent");
+                if (!jvmtiAgent.isEmpty()) {
+                    int equalIndex = jvmtiAgent.indexOf('=');
+                    String libraryPath = jvmtiAgent.substring(0, equalIndex);
+                    String parameterList =
+                            jvmtiAgent.substring(equalIndex + 1, jvmtiAgent.length());
+                    // Attach the agent.
+                    try {
+                        Debug.attachJvmtiAgent(libraryPath, parameterList, null);
+                    } catch (Exception e) {
+                        Slog.e("System", "*************************************************");
+                        Slog.e("System", "********** Failed to load jvmti plugin: " + jvmtiAgent);
+                    }
+                }
+            }
+        } finally {
+            t.traceEnd();  // InitBeforeStartServices
+        }
+
+        // Setup the default WTF handler
+        RuntimeInit.setDefaultApplicationWtfHandler(SystemServer::handleEarlySystemWtf);
+
+        // Initialize the application shared memory region.
+        // This needs to happen before any system services are started,
+        // as they may rely on the shared memory region having been initialized.
+        ApplicationSharedMemory instance = ApplicationSharedMemory.create();
+        ApplicationSharedMemory.setInstance(instance);
+
+        // Start services.
+        try {
+            t.traceBegin("StartServices");
+            startBootstrapServices(t);
+            startCoreServices(t);
+            startOtherServices(t);
+            startApexServices(t);
+            // Only update the timeout after starting all the services so that we use
+            // the default timeout to start system server.
+            updateWatchdogTimeout(t);
+            CriticalEventLog.getInstance().logSystemServerStarted();
+        } catch (Throwable ex) {
+            Slog.e("System", "******************************************");
+            Slog.e("System", "************ Failure starting system services", ex);
+            throw ex;
+        } finally {
+            t.traceEnd(); // StartServices
+        }
+
+        StrictMode.initVmDefaults(null);
+
+        if (!mRuntimeRestart && !isFirstBootOrUpgrade()) {
+            final long uptimeMillis = SystemClock.elapsedRealtime();
+            FrameworkStatsLog.write(FrameworkStatsLog.BOOT_TIME_EVENT_ELAPSED_TIME_REPORTED,
+                    FrameworkStatsLog.BOOT_TIME_EVENT_ELAPSED_TIME__EVENT__SYSTEM_SERVER_READY,
+                    uptimeMillis);
+            final long maxUptimeMillis = 60 * 1000;
+            if (uptimeMillis > maxUptimeMillis) {
+                Slog.wtf(SYSTEM_SERVER_TIMING_TAG,
+                        "SystemServer init took too long. uptimeMillis=" + uptimeMillis);
+            }
+        }
+
+        // Set binder transaction callback after starting system services
+        Binder.setTransactionCallback(new IBinderCallback() {
+            @Override
+            public void onTransactionError(int pid, int code, int flags, int err) {
+                mActivityManagerService.frozenBinderTransactionDetected(pid, code, flags, err);
+            }
+        });
+
+        // Loop forever.
+        Looper.loop();
+        throw new RuntimeException("Main thread loop unexpectedly exited");
+    }
+
+    private static boolean isValidTimeZoneId(String timezoneProperty) {
+        return timezoneProperty != null
+                && !timezoneProperty.isEmpty()
+                && ZoneInfoDb.getInstance().hasTimeZone(timezoneProperty);
+    }
+
+    private boolean isFirstBootOrUpgrade() {
+        return mPackageManagerService.isFirstBoot() || mPackageManagerService.isDeviceUpgrading();
+    }
+
+    private void reportWtf(String msg, Throwable e) {
+        Slog.w(TAG, "***********************************************");
+        Slog.wtf(TAG, "BOOT FAILURE " + msg, e);
+    }
 ```
