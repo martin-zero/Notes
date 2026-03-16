@@ -15,5 +15,8 @@
   "Blue-Topaz-Codebox-Highlight@@code-box-style-option": "codebox-default-style",
   "Blue-Topaz-Codebox-Highlight@@whole-code-wrap": false,
   "Blue-Topaz-Codebox-Highlight@@muted-code-activeline-bg": true,
-  "blue-topaz-theme@@left-ribbon-style": "bt-bubble-ribbon-hide-left"
+  "blue-topaz-theme@@left-ribbon-style": "default-left-ribbon-style",
+  "blue-topaz-theme@@search-bar-style-option": "default-search-bar",
+  "blue-topaz-theme@@scrollbar-style-option": "default-scrollbar",
+  "blue-topaz-theme@@layout-style-options": "asymmetric-split-left"
 }
