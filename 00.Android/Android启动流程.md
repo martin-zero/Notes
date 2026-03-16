@@ -306,16 +306,10 @@ init进程显示通过解析init.rc文件执行[`frameworks/base/cmds/app_proces
 ```cpp
 int main(int argc, char* const argv[])
 {
-    if (!LOG_NDEBUG) {
-      String8 argv_String;
-      for (int i = 0; i < argc; ++i) {
-        argv_String.append("\"");
-        argv_String.append(argv[i]);
-        argv_String.append("\" ");
-      }
-      ALOGV("app_process main with argv: %s", argv_String.c_str());
-    }
 
+    ...
+
+	// 初始化虚拟机
     AppRuntime runtime(argv[0], computeArgBlockSize(argc, argv));
     // Process command line arguments
     // ignore argv[0]
