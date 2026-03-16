@@ -407,6 +407,35 @@ int main(int argc, char* const argv[])
             if (startSystemServer) {
                 Runnable r = forkSystemServer(abiList, zygoteSocketName, zygoteServer);
 
+                // {@code r == null} in the parent (zygote) process, and {@code r != null} in the
+                // child (system_server) process.
+                if (r != null) {
+                    r.run();
+                    return;
+                }
+            }
+
+            Log.i(TAG, "Accepting command socket connections");
+
+            // The select loop returns early in the child process after a fork and
+            // loops forever in the zygote.
+            caller = zygoteServer.runSelectLoop(abiList);
+        } catch (Throwable ex) {
+            Log.e(TAG, "System zygote died with fatal exception", ex);
+            throw ex;
+        } finally {
+            if (zygoteServer != null) {
+                zygoteServer.closeServerSocket();
+            }
+        }
+
+        // We're in the child process and have exited the select loop. Proceed to execute the
+        // command.
+        if (caller != null) {
+            caller.run();
+        }
+    }
+
 ...
 
 ```
