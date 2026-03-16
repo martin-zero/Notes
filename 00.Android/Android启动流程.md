@@ -159,7 +159,6 @@ SetupSelinux阶段负责**初始化并启用Selinux安全机制**。
 ```cpp
 int SetupSelinux(char** argv) {
 
-	// 启用日志系统
     SetStdioToDevNull(argv);
     InitKernelLogging(argv);
 
@@ -171,6 +170,7 @@ int SetupSelinux(char** argv) {
 
     SelinuxSetupKernelLogging();
 
+    // TODO(b/287206497): refactor into different headers to only include what we need.
     if (IsMicrodroid()) {
         LoadSelinuxPolicyMicrodroid();
     } else {
@@ -216,9 +216,248 @@ int SetupSelinux(char** argv) {
 
 ## SecondStage
 SecondStage为Init流程中最重要的一个阶段，这个阶段主要负责**解析init.rc文件，并根据init.rc文件启动Android系统native层的服务**，其中`servicemanager`与`zygote`就是在这里起来的。
-
-
 完成以上步骤后init不会退出，而是进入了一个事件循环。主要监听**property 变化**，**service 进程状态**等事件。
+```cpp
+int SecondStageMain(int argc, char** argv) {
+    if (REBOOT_BOOTLOADER_ON_PANIC) {
+        InstallRebootSignalHandlers();
+    }
+
+    // No threads should be spin up until signalfd
+    // is registered. If the threads are indeed required,
+    // each of these threads _should_ make sure SIGCHLD signal
+    // is blocked. See b/223076262
+    boot_clock::time_point start_time = boot_clock::now();
+
+    trigger_shutdown = [](const std::string& command) { shutdown_state.TriggerShutdown(command); };
+
+    SetStdioToDevNull(argv);
+    InitKernelLogging(argv);
+    LOG(INFO) << "init second stage started!";
+
+    SelinuxSetupKernelLogging();
+
+    // Update $PATH in the case the second stage init is newer than first stage init, where it is
+    // first set.
+    if (setenv("PATH", _PATH_DEFPATH, 1) != 0) {
+        PLOG(FATAL) << "Could not set $PATH to '" << _PATH_DEFPATH << "' in second stage";
+    }
+
+    // Init should not crash because of a dependence on any other process, therefore we ignore
+    // SIGPIPE and handle EPIPE at the call site directly.  Note that setting a signal to SIG_IGN
+    // is inherited across exec, but custom signal handlers are not.  Since we do not want to
+    // ignore SIGPIPE for child processes, we set a no-op function for the signal handler instead.
+    {
+        struct sigaction action = {.sa_flags = SA_RESTART};
+        action.sa_handler = [](int) {};
+        sigaction(SIGPIPE, &action, nullptr);
+    }
+
+    // Set init and its forked children's oom_adj.
+    if (auto result =
+                WriteFile("/proc/1/oom_score_adj", StringPrintf("%d", DEFAULT_OOM_SCORE_ADJUST));
+        !result.ok()) {
+        LOG(ERROR) << "Unable to write " << DEFAULT_OOM_SCORE_ADJUST
+                   << " to /proc/1/oom_score_adj: " << result.error();
+    }
+
+    // Indicate that booting is in progress to background fw loaders, etc.
+    close(open("/dev/.booting", O_WRONLY | O_CREAT | O_CLOEXEC, 0000));
+
+    // See if need to load debug props to allow adb root, when the device is unlocked.
+    const char* force_debuggable_env = getenv("INIT_FORCE_DEBUGGABLE");
+    bool load_debug_prop = false;
+    if (force_debuggable_env && AvbHandle::IsDeviceUnlocked()) {
+        load_debug_prop = "true"s == force_debuggable_env;
+    }
+    unsetenv("INIT_FORCE_DEBUGGABLE");
+
+    // Umount the debug ramdisk so property service doesn't read .prop files from there, when it
+    // is not meant to.
+    if (!load_debug_prop) {
+        UmountDebugRamdisk();
+    }
+
+    PropertyInit();
+
+    // Umount second stage resources after property service has read the .prop files.
+    UmountSecondStageRes();
+
+    // Umount the debug ramdisk after property service has read the .prop files when it means to.
+    if (load_debug_prop) {
+        UmountDebugRamdisk();
+    }
+
+    // Mount extra filesystems required during second stage init
+    MountExtraFilesystems();
+
+    // Now set up SELinux for second stage.
+    SelabelInitialize();
+    SelinuxRestoreContext();
+
+    Epoll epoll;
+    if (auto result = epoll.Open(); !result.ok()) {
+        PLOG(FATAL) << result.error();
+    }
+
+    // We always reap children before responding to the other pending functions. This is to
+    // prevent a race where other daemons see that a service has exited and ask init to
+    // start it again via ctl.start before init has reaped it.
+    epoll.SetFirstCallback(ReapAnyOutstandingChildren);
+
+    InstallSignalFdHandler(&epoll);
+    InstallInitNotifier(&epoll);
+    StartPropertyService(&property_fd);
+
+    // If boot_timeout property has been set in a debug build, start the boot monitor
+    if (GetBoolProperty("ro.debuggable", false)) {
+        int timeout = GetIntProperty("ro.boot.boot_timeout", 0);
+        if (timeout > 0) {
+            StartSecondStageBootMonitor(timeout);
+        }
+    }
+
+    // Make the time that init stages started available for bootstat to log.
+    RecordStageBoottimes(start_time);
+
+    // Set libavb version for Framework-only OTA match in Treble build.
+    if (const char* avb_version = getenv("INIT_AVB_VERSION"); avb_version != nullptr) {
+        SetProperty("ro.boot.avb_version", avb_version);
+    }
+    unsetenv("INIT_AVB_VERSION");
+
+    fs_mgr_vendor_overlay_mount_all();
+    export_oem_lock_status();
+    MountHandler mount_handler(&epoll);
+    SetUsbController();
+    SetKernelVersion();
+
+    const BuiltinFunctionMap& function_map = GetBuiltinFunctionMap();
+    Action::set_function_map(&function_map);
+
+    if (!SetupMountNamespaces()) {
+        PLOG(FATAL) << "SetupMountNamespaces failed";
+    }
+
+    InitializeSubcontext();
+
+    ActionManager& am = ActionManager::GetInstance();
+    ServiceList& sm = ServiceList::GetInstance();
+
+    LoadBootScripts(am, sm);
+
+    // Turning this on and letting the INFO logging be discarded adds 0.2s to
+    // Nexus 9 boot time, so it's disabled by default.
+    if (false) DumpState();
+
+    // Make the GSI status available before scripts start running.
+    auto is_running = android::gsi::IsGsiRunning() ? "1" : "0";
+    SetProperty(gsi::kGsiBootedProp, is_running);
+    auto is_installed = android::gsi::IsGsiInstalled() ? "1" : "0";
+    SetProperty(gsi::kGsiInstalledProp, is_installed);
+    if (android::gsi::IsGsiRunning()) {
+        std::string dsu_slot;
+        if (android::gsi::GetActiveDsu(&dsu_slot)) {
+            SetProperty(gsi::kDsuSlotProp, dsu_slot);
+        }
+    }
+
+    // This needs to happen before SetKptrRestrictAction, as we are trying to
+    // open /proc/kallsyms while still being allowed to see the full addresses
+    // (since init holds CAP_SYSLOG, and Linux boots with kptr_restrict=0). The
+    // address visibility through the saved fd (more specifically, the backing
+    // open file description) will then be remembered by the kernel for the rest
+    // of its lifetime, even after we raise the kptr_restrict.
+    Service::OpenAndSaveStaticKallsymsFd();
+
+    am.QueueBuiltinAction(SetupCgroupsAction, "SetupCgroups");
+    am.QueueBuiltinAction(SetKptrRestrictAction, "SetKptrRestrict");
+    am.QueueBuiltinAction(TestPerfEventSelinuxAction, "TestPerfEventSelinux");
+    am.QueueEventTrigger("early-init");
+    am.QueueBuiltinAction(ConnectEarlyStageSnapuserdAction, "ConnectEarlyStageSnapuserd");
+
+    // Queue an action that waits for coldboot done so we know ueventd has set up all of /dev...
+    am.QueueBuiltinAction(wait_for_coldboot_done_action, "wait_for_coldboot_done");
+    // ... so that we can start queuing up actions that require stuff from /dev.
+    am.QueueBuiltinAction(SetMmapRndBitsAction, "SetMmapRndBits");
+    Keychords keychords;
+    am.QueueBuiltinAction(
+            [&epoll, &keychords](const BuiltinArguments& args) -> Result<void> {
+                for (const auto& svc : ServiceList::GetInstance()) {
+                    keychords.Register(svc->keycodes());
+                }
+                keychords.Start(&epoll, HandleKeychord);
+                return {};
+            },
+            "KeychordInit");
+
+    // Trigger all the boot actions to get us started.
+    am.QueueEventTrigger("init");
+
+    // Don't mount filesystems or start core system services in charger mode.
+    std::string bootmode = GetProperty("ro.bootmode", "");
+    if (bootmode == "charger") {
+        am.QueueEventTrigger("charger");
+    } else {
+        am.QueueEventTrigger("late-init");
+    }
+
+    // Run all property triggers based on current state of the properties.
+    am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
+
+    // Restore prio before main loop
+    setpriority(PRIO_PROCESS, 0, 0);
+    while (true) {
+        // By default, sleep until something happens. Do not convert far_future into
+        // std::chrono::milliseconds because that would trigger an overflow. The unit of boot_clock
+        // is 1ns.
+        const boot_clock::time_point far_future = boot_clock::time_point::max();
+        boot_clock::time_point next_action_time = far_future;
+
+        auto shutdown_command = shutdown_state.CheckShutdown();
+        if (shutdown_command) {
+            LOG(INFO) << "Got shutdown_command '" << *shutdown_command
+                      << "' Calling HandlePowerctlMessage()";
+            HandlePowerctlMessage(*shutdown_command);
+        }
+
+        if (!(prop_waiter_state.MightBeWaiting() || Service::is_exec_service_running())) {
+            am.ExecuteOneCommand();
+            // If there's more work to do, wake up again immediately.
+            if (am.HasMoreCommands()) {
+                next_action_time = boot_clock::now();
+            }
+        }
+        // Since the above code examined pending actions, no new actions must be
+        // queued by the code between this line and the Epoll::Wait() call below
+        // without calling WakeMainInitThread().
+        if (!IsShuttingDown()) {
+            auto next_process_action_time = HandleProcessActions();
+
+            // If there's a process that needs restarting, wake up in time for that.
+            if (next_process_action_time) {
+                next_action_time = std::min(next_action_time, *next_process_action_time);
+            }
+        }
+
+        std::optional<std::chrono::milliseconds> epoll_timeout;
+        if (next_action_time != far_future) {
+            epoll_timeout = std::chrono::ceil<std::chrono::milliseconds>(
+                    std::max(next_action_time - boot_clock::now(), 0ns));
+        }
+        auto epoll_result = epoll.Wait(epoll_timeout);
+        if (!epoll_result.ok()) {
+            LOG(ERROR) << epoll_result.error();
+        }
+        if (!IsShuttingDown()) {
+            HandleControlMessages();
+            SetUsbController();
+        }
+    }
+
+    return 0;
+}
+```
 
 # Zygote
 Zygote进程是在init.rc文件中声明，由init进程启动的，在Android系统的运行过程中起着非常重要的作用，**Java层的所有进程都是由Zygote fork出来的**。
