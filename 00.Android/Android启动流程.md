@@ -42,6 +42,7 @@ int main(int argc, char** argv) {
 }
 ```
 
+## 
 FirstStage阶段主要负责**初始化系统基础环境**与**挂载核心文件系统**。
 ```cpp
 int FirstStageMain(int argc, char** argv) {
