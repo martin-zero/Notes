@@ -158,6 +158,8 @@ int FirstStageMain(int argc, char** argv) {
 SetupSelinux阶段负责**初始化并启用Selinux安全机制**。
 ```cpp
 int SetupSelinux(char** argv) {
+
+	// 启用日志系统
     SetStdioToDevNull(argv);
     InitKernelLogging(argv);
 
@@ -169,7 +171,6 @@ int SetupSelinux(char** argv) {
 
     SelinuxSetupKernelLogging();
 
-    // TODO(b/287206497): refactor into different headers to only include what we need.
     if (IsMicrodroid()) {
         LoadSelinuxPolicyMicrodroid();
     } else {
