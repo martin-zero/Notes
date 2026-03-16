@@ -375,3 +375,123 @@ int main(int argc, char* const argv[])
 
 ## ZygoteInit
 从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，
+
+```java
+ public static void main(String[] argv) {
+        ZygoteServer zygoteServer = null;
+
+        // 禁止Zygote在fork前创建线程，避免出现锁状态错乱情况
+        ZygoteHooks.startZygoteNoThreadCreation();
+
+        // Zygote goes into its own process group.
+        try {
+            Os.setpgid(0, 0);
+        } catch (ErrnoException ex) {
+            throw new RuntimeException("Failed to setpgid(0,0)", ex);
+        }
+
+        Runnable caller;
+        try {
+            // Store now for StatsLogging later.
+            final long startTime = SystemClock.elapsedRealtime();
+            final boolean isRuntimeRestarted = "1".equals(
+                    SystemProperties.get("sys.boot_completed"));
+
+            String bootTimeTag = Process.is64Bit() ? "Zygote64Timing" : "Zygote32Timing";
+            TimingsTraceLog bootTimingsTraceLog = new TimingsTraceLog(bootTimeTag,
+                    Trace.TRACE_TAG_DALVIK);
+            bootTimingsTraceLog.traceBegin("ZygoteInit");
+            RuntimeInit.preForkInit();
+
+            boolean startSystemServer = false;
+            String zygoteSocketName = "zygote";
+            String abiList = null;
+            boolean enableLazyPreload = false;
+            for (int i = 1; i < argv.length; i++) {
+                if ("start-system-server".equals(argv[i])) {
+                    startSystemServer = true;
+                } else if ("--enable-lazy-preload".equals(argv[i])) {
+                    enableLazyPreload = true;
+                } else if (argv[i].startsWith(ABI_LIST_ARG)) {
+                    abiList = argv[i].substring(ABI_LIST_ARG.length());
+                } else if (argv[i].startsWith(SOCKET_NAME_ARG)) {
+                    zygoteSocketName = argv[i].substring(SOCKET_NAME_ARG.length());
+                } else {
+                    throw new RuntimeException("Unknown command line argument: " + argv[i]);
+                }
+            }
+
+            final boolean isPrimaryZygote = zygoteSocketName.equals(Zygote.PRIMARY_SOCKET_NAME);
+            if (!isRuntimeRestarted) {
+                if (isPrimaryZygote) {
+                    FrameworkStatsLog.write(FrameworkStatsLog.BOOT_TIME_EVENT_ELAPSED_TIME_REPORTED,
+                            BOOT_TIME_EVENT_ELAPSED_TIME__EVENT__ZYGOTE_INIT_START,
+                            startTime);
+                } else if (zygoteSocketName.equals(Zygote.SECONDARY_SOCKET_NAME)) {
+                    FrameworkStatsLog.write(FrameworkStatsLog.BOOT_TIME_EVENT_ELAPSED_TIME_REPORTED,
+                            BOOT_TIME_EVENT_ELAPSED_TIME__EVENT__SECONDARY_ZYGOTE_INIT_START,
+                            startTime);
+                }
+            }
+
+            if (abiList == null) {
+                throw new RuntimeException("No ABI list supplied.");
+            }
+
+            // In some configurations, we avoid preloading resources and classes eagerly.
+            // In such cases, we will preload things prior to our first fork.
+            if (!enableLazyPreload) {
+                bootTimingsTraceLog.traceBegin("ZygotePreload");
+                EventLog.writeEvent(LOG_BOOT_PROGRESS_PRELOAD_START,
+                        SystemClock.uptimeMillis());
+                preload(bootTimingsTraceLog);
+                EventLog.writeEvent(LOG_BOOT_PROGRESS_PRELOAD_END,
+                        SystemClock.uptimeMillis());
+                bootTimingsTraceLog.traceEnd(); // ZygotePreload
+            }
+
+            // Do an initial gc to clean up after startup
+            bootTimingsTraceLog.traceBegin("PostZygoteInitGC");
+            gcAndFinalize();
+            bootTimingsTraceLog.traceEnd(); // PostZygoteInitGC
+
+            bootTimingsTraceLog.traceEnd(); // ZygoteInit
+
+            Zygote.initNativeState(isPrimaryZygote);
+
+            ZygoteHooks.stopZygoteNoThreadCreation();
+
+            zygoteServer = new ZygoteServer(isPrimaryZygote);
+
+            if (startSystemServer) {
+                Runnable r = forkSystemServer(abiList, zygoteSocketName, zygoteServer);
+
+                // {@code r == null} in the parent (zygote) process, and {@code r != null} in the
+                // child (system_server) process.
+                if (r != null) {
+                    r.run();
+                    return;
+                }
+            }
+
+            Log.i(TAG, "Accepting command socket connections");
+
+            // The select loop returns early in the child process after a fork and
+            // loops forever in the zygote.
+            caller = zygoteServer.runSelectLoop(abiList);
+        } catch (Throwable ex) {
+            Log.e(TAG, "System zygote died with fatal exception", ex);
+            throw ex;
+        } finally {
+            if (zygoteServer != null) {
+                zygoteServer.closeServerSocket();
+            }
+        }
+
+        // We're in the child process and have exited the select loop. Proceed to execute the
+        // command.
+        if (caller != null) {
+            caller.run();
+        }
+    }
+```
