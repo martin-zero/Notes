@@ -124,6 +124,7 @@ int FirstStageMain(int argc, char** argv) {
 
     MaybeResumeFromHibernation(bootconfig);
 
+	// 在/dev目录下创建必要设备节点
     std::unique_ptr<FirstStageMount> fsm;
 
     bool created_devices = false;
