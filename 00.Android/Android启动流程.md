@@ -374,7 +374,7 @@ int main(int argc, char* const argv[])
 ```
 
 ## ZygoteInit
-从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，它负责预加载
+从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，它负责**预加载系统资源**（Framework classes、常用资源文件、字体以及共享库等），以便它fork的进程无需引用即可使用。之后启用
 
 ```java
  public static void main(String[] argv) {
