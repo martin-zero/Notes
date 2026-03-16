@@ -390,53 +390,7 @@ int main(int argc, char* const argv[])
             throw new RuntimeException("Failed to setpgid(0,0)", ex);
         }
 
-        Runnable caller;
-        try {
-            // Store now for StatsLogging later.
-            final long startTime = SystemClock.elapsedRealtime();
-            final boolean isRuntimeRestarted = "1".equals(
-                    SystemProperties.get("sys.boot_completed"));
-
-            String bootTimeTag = Process.is64Bit() ? "Zygote64Timing" : "Zygote32Timing";
-            TimingsTraceLog bootTimingsTraceLog = new TimingsTraceLog(bootTimeTag,
-                    Trace.TRACE_TAG_DALVIK);
-            bootTimingsTraceLog.traceBegin("ZygoteInit");
-            RuntimeInit.preForkInit();
-
-            boolean startSystemServer = false;
-            String zygoteSocketName = "zygote";
-            String abiList = null;
-            boolean enableLazyPreload = false;
-            for (int i = 1; i < argv.length; i++) {
-                if ("start-system-server".equals(argv[i])) {
-                    startSystemServer = true;
-                } else if ("--enable-lazy-preload".equals(argv[i])) {
-                    enableLazyPreload = true;
-                } else if (argv[i].startsWith(ABI_LIST_ARG)) {
-                    abiList = argv[i].substring(ABI_LIST_ARG.length());
-                } else if (argv[i].startsWith(SOCKET_NAME_ARG)) {
-                    zygoteSocketName = argv[i].substring(SOCKET_NAME_ARG.length());
-                } else {
-                    throw new RuntimeException("Unknown command line argument: " + argv[i]);
-                }
-            }
-
-            final boolean isPrimaryZygote = zygoteSocketName.equals(Zygote.PRIMARY_SOCKET_NAME);
-            if (!isRuntimeRestarted) {
-                if (isPrimaryZygote) {
-                    FrameworkStatsLog.write(FrameworkStatsLog.BOOT_TIME_EVENT_ELAPSED_TIME_REPORTED,
-                            BOOT_TIME_EVENT_ELAPSED_TIME__EVENT__ZYGOTE_INIT_START,
-                            startTime);
-                } else if (zygoteSocketName.equals(Zygote.SECONDARY_SOCKET_NAME)) {
-                    FrameworkStatsLog.write(FrameworkStatsLog.BOOT_TIME_EVENT_ELAPSED_TIME_REPORTED,
-                            BOOT_TIME_EVENT_ELAPSED_TIME__EVENT__SECONDARY_ZYGOTE_INIT_START,
-                            startTime);
-                }
-            }
-
-            if (abiList == null) {
-                throw new RuntimeException("No ABI list supplied.");
-            }
+...
 
             // In some configurations, we avoid preloading resources and classes eagerly.
             // In such cases, we will preload things prior to our first fork.
@@ -446,27 +400,13 @@ int main(int argc, char* const argv[])
                         SystemClock.uptimeMillis());
                 // 预加载资源，使fork后的进程直接可以用Android的资源（核心）
                 preload(bootTimingsTraceLog);
-                EventLog.writeEvent(LOG_BOOT_PROGRESS_PRELOAD_END,
-                        SystemClock.uptimeMillis());
-                bootTimingsTraceLog.traceEnd(); // ZygotePreload
-            }
 
-            // Do an initial gc to clean up after startup
-            bootTimingsTraceLog.traceBegin("PostZygoteInitGC");
-            gcAndFinalize();
-            bootTimingsTraceLog.traceEnd(); // PostZygoteInitGC
-
-            bootTimingsTraceLog.traceEnd(); // ZygoteInit
-
-            Zygote.initNativeState(isPrimaryZygote);
-
-            ZygoteHooks.stopZygoteNoThreadCreation();
-
-            zygoteServer = new ZygoteServer(isPrimaryZygote);
+...
 
 			// fork SystemServer进程
             if (startSystemServer) {
                 Runnable r = forkSystemServer(abiList, zygoteSocketName, zygoteServer);
 
-  ...
+...
+
 ```
