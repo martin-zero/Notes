@@ -374,4 +374,4 @@ int main(int argc, char* const argv[])
 ```
 
 ## ZygoteInit
-app_main将环境准备好后会执行它Java层ZygoteInit的main函数，它位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，
+从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，
