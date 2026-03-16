@@ -78,6 +78,7 @@ int FirstStageMain(int argc, char** argv) {
         for (const auto& [error_string, error_errno] : errors) {
             LOG(ERROR) << error_string << " " << strerror(error_errno);
         }
+        // 打印终止日志并终止进程(LOG(FATAL)会触发abort)
         LOG(FATAL) << "Init encountered errors starting first stage, aborting";
     }
 
