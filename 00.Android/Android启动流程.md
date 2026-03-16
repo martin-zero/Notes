@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-## 
+## FirstStage
 FirstStage阶段主要负责**初始化系统基础环境**与**挂载核心文件系统**。
 ```cpp
 int FirstStageMain(int argc, char** argv) {
@@ -154,6 +154,7 @@ int FirstStageMain(int argc, char** argv) {
 }
 ```
 
+## SetupSelinux
 SetupSelinux阶段负责**初始化并启用Selinux安全机制**。
 ```cpp
 int SetupSelinux(char** argv) {
@@ -211,7 +212,11 @@ int SetupSelinux(char** argv) {
     return 1;
 }
 ```
+
+## SecondStage
 SecondStage为Init流程中最重要的一个阶段，这个阶段主要负责**解析init.rc文件，并根据init.rc文件启动Android系统native层的服务**，其中`servicemanager`与`zygote`就是在这里起来的。
+
+
 完成以上步骤后init不会退出，而是进入了一个事件循环。主要监听**property 变化**，**service 进程状态**等事件。
 
 # Zygote
