@@ -444,6 +444,7 @@ int main(int argc, char* const argv[])
                 bootTimingsTraceLog.traceBegin("ZygotePreload");
                 EventLog.writeEvent(LOG_BOOT_PROGRESS_PRELOAD_START,
                         SystemClock.uptimeMillis());
+                // 预加载资源，使fork后的进程直接可以用Android的资源（核心）
                 preload(bootTimingsTraceLog);
                 EventLog.writeEvent(LOG_BOOT_PROGRESS_PRELOAD_END,
                         SystemClock.uptimeMillis());
