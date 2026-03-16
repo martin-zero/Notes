@@ -35,5 +35,6 @@
   "Appearance-light@@accent-color-override-light": false,
   "Appearance-light@@mod-right-split-background-select-light": "mod-right-split-background-primary-light",
   "Editor@@editor-grid-background-pattren": false,
-  "Editor@@codeblock-style-select": "codeblock-style-one-dark"
+  "Editor@@codeblock-style-select": "codeblock-style-one-dark",
+  "Editor@@border-focus-mode": false
 }

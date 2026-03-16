@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-FirstStage阶段负责**初始化系统基础环境**与**挂载核心文件系统**。
+FirstStage阶段主要负责**初始化系统基础环境**与**挂载核心文件系统**。
 ```cpp
 int FirstStageMain(int argc, char** argv) {
     
@@ -72,7 +72,8 @@ int FirstStageMain(int argc, char** argv) {
     // talk to the outside world...
     // 初始化内核日志
     InitKernelLogging(argv);
-
+	
+	// 输出错误日志
     if (!errors.empty()) {
         for (const auto& [error_string, error_errno] : errors) {
             LOG(ERROR) << error_string << " " << strerror(error_errno);
