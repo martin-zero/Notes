@@ -49,7 +49,7 @@ int FirstStageMain(int argc, char** argv) {
     
     ...
     
-    // 初始化环境、创建并挂载核心文件系统
+    // 创建并挂载最基础的内核接口
 #define CHECKCALL(x) \
     if ((x) != 0) errors.emplace_back(#x " failed", errno);
 
@@ -85,6 +85,7 @@ int FirstStageMain(int argc, char** argv) {
 	// 第一阶段初始化开始
     LOG(INFO) << "init first stage started!";
 
+	// 记录当前root
     auto old_root_dir = std::unique_ptr<DIR, decltype(&closedir)>{opendir("/"), closedir};
     if (!old_root_dir) {
         PLOG(ERROR) << "Could not opendir(\"/\"), not freeing ramdisk";
@@ -96,6 +97,7 @@ int FirstStageMain(int argc, char** argv) {
         old_root_dir.reset();
     }
 
+	// 决定启动参数 (normal boot, recovery boot, charger mode)
     auto want_console = ALLOW_FIRST_STAGE_CONSOLE ? FirstStageConsole(cmdline, bootconfig) : 0;
     auto want_parallel =
             bootconfig.find("androidboot.load_modules_parallel = \"true\"") != std::string::npos;
