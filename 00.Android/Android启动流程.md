@@ -311,40 +311,12 @@ int main(int argc, char* const argv[])
 
 	// 初始化虚拟机
     AppRuntime runtime(argv[0], computeArgBlockSize(argc, argv));
-    // Process command line arguments
-    // ignore argv[0]
-    argc--;
-    argv++;
 
-    // Everything up to '--' or first non '-' arg goes to the vm.
-    //
-    // The first argument after the VM args is the "parent dir", which
-    // is currently unused.
-    //
-    // After the parent dir, we expect one or more the following internal
-    // arguments :
-    //
-    // --zygote : Start in zygote mode
-    // --start-system-server : Start the system server.
-    // --application : Start in application (stand alone, non zygote) mode.
-    // --nice-name : The nice name for this process.
-    //
-    // For non zygote starts, these arguments will be followed by
-    // the main class name. All remaining arguments are passed to
-    // the main method of this class.
-    //
-    // For zygote starts, all remaining arguments are passed to the zygote.
-    // main function.
-    //
-    // Note that we must copy argument string values since we will rewrite the
-    // entire argument block when we apply the nice name to argv0.
-    //
-    // As an exception to the above rule, anything in "spaced commands"
-    // goes to the vm even though it has a space in it.
-    const char* spaced_commands[] = { "-cp", "-classpath" };
-    // Allow "spaced commands" to be succeeded by exactly 1 argument (regardless of -s).
+...
+
     bool known_command = false;
 
+	// 读取并解析命令参数
     int i;
     for (i = 0; i < argc; i++) {
         if (known_command == true) {
@@ -360,34 +332,10 @@ int main(int argc, char* const argv[])
         for (int j = 0;
              j < static_cast<int>(sizeof(spaced_commands) / sizeof(spaced_commands[0]));
              ++j) {
-          if (strcmp(argv[i], spaced_commands[j]) == 0) {
-            known_command = true;
-            ALOGV("app_process main found known command '%s'", argv[i]);
-          }
-        }
+ 
+ ...
 
-        if (argv[i][0] != '-') {
-            break;
-        }
-        if (argv[i][1] == '-' && argv[i][2] == 0) {
-            ++i; // Skip --.
-            break;
-        }
-
-        runtime.addOption(strdup(argv[i]));
-        // The static analyzer gets upset that we don't ever free the above
-        // string. Since the allocation is from main, leaking it doesn't seem
-        // problematic. NOLINTNEXTLINE
-        ALOGV("app_process main add option '%s'", argv[i]);
-    }
-
-    // Parse runtime arguments.  Stop at first unrecognized option.
-    bool zygote = false;
-    bool startSystemServer = false;
-    bool application = false;
-    String8 niceName;
-    String8 className;
-
+	// 解析运行模式
     ++i;  // Skip unused "parent dir" argument.
     while (i < argc) {
         const char* arg = argv[i++];
