@@ -9,7 +9,7 @@ tags:
 #TODO 差异化 
 
 # Init
-Init进程是Android用户空间的第一个进程，进程号为1，其main.cpp的代码路径为[`system/core/init/main.cpp`](https://cs.android.com/android/platform/superproject/+/android-latest-release:system/core/init/main.cpp;l=1?q=init%2Fmain&ss=android%2Fplatform%2Fsuperproject&hl=zh-cn)，main函数中init分为三个阶段：
+Init进程是Android用户空间的第一个进程，进程号为1，其main.cpp的代码路径为[system/core/init/main.cpp](https://cs.android.com/android/platform/superproject/+/android-latest-release:system/core/init/main.cpp;l=1?q=init%2Fmain&ss=android%2Fplatform%2Fsuperproject&hl=zh-cn)，main函数中init分为三个阶段：
 ```cpp
 int main(int argc, char** argv) {
 #if __has_feature(address_sanitizer)
@@ -302,7 +302,7 @@ int SecondStageMain(int argc, char** argv) {
 # Zygote
 Zygote进程是在init.rc文件中声明，由init进程启动的，在Android系统的运行过程中起着非常重要的作用，**Java层的所有进程都是由Zygote fork出来的**。
 ## app_process
-init进程显示通过解析init.rc文件执行[`frameworks/base/cmds/app_process/app_main.cpp`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/cmds/app_process/app_main.cpp;l=1;bpv=0;bpt=1?q=App_main.cpp&sq=&ss=android%2Fplatform%2Fsuperproject%2Fmain&hl=zh-cn)中的main，app_process的app_main负责**创建JVM虚拟机、注册JNI、准备Java环境**。
+init进程显示通过解析init.rc文件执行[frameworks/base/cmds/app_process/app_main.cpp](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/cmds/app_process/app_main.cpp;l=1;bpv=0;bpt=1?q=App_main.cpp&sq=&ss=android%2Fplatform%2Fsuperproject%2Fmain&hl=zh-cn)中的main，app_process的app_main负责**创建JVM虚拟机、注册JNI、准备Java环境**。
 ```cpp
 int main(int argc, char* const argv[])
 {
@@ -374,7 +374,7 @@ int main(int argc, char* const argv[])
 ```
 
 ## ZygoteInit
-从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[`frameworks/base/core/java/com/android/internal/os/ZygoteInit.java`](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，它负责**预加载系统资源**（Framework classes、常用资源文件、字体以及共享库等），以便它fork的进程无需引用即可使用。之后启用
+从这里开始，我们正式进入Android系统中的Java层，ZygoteInit位于[frameworks/base/core/java/com/android/internal/os/ZygoteInit.java](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/os/ZygoteInit.java;l=91?q=ZygoteIn&sq=&hl=zh-cn)目录下，它负责**预加载系统资源**（Framework classes、常用资源文件、字体以及共享库等），以便它fork的进程无需引用即可使用。之后启用
 
 ```java
  public static void main(String[] argv) {

@@ -13,5 +13,6 @@
     "01.日志分析/assets/",
     "00.知识库/assets/",
     "10.模版/"
-  ]
+  ],
+  "showInlineTitle": true
 }
