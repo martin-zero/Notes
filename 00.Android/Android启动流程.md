@@ -442,3 +442,4 @@ int main(int argc, char* const argv[])
 ```
 
 # SystemServer
+zygote fork出SystemServer后会通过反射运行`frameworks/base/services/java/com/android/server/SystemServer.java`
