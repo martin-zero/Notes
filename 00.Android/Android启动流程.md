@@ -228,51 +228,8 @@ int SecondStageMain(int argc, char** argv) {
 
     LoadBootScripts(am, sm);
 
-    // Turning this on and letting the INFO logging be discarded adds 0.2s to
-    // Nexus 9 boot time, so it's disabled by default.
-    if (false) DumpState();
-
-    // Make the GSI status available before scripts start running.
-    auto is_running = android::gsi::IsGsiRunning() ? "1" : "0";
-    SetProperty(gsi::kGsiBootedProp, is_running);
-    auto is_installed = android::gsi::IsGsiInstalled() ? "1" : "0";
-    SetProperty(gsi::kGsiInstalledProp, is_installed);
-    if (android::gsi::IsGsiRunning()) {
-        std::string dsu_slot;
-        if (android::gsi::GetActiveDsu(&dsu_slot)) {
-            SetProperty(gsi::kDsuSlotProp, dsu_slot);
-        }
-    }
-
-    // This needs to happen before SetKptrRestrictAction, as we are trying to
-    // open /proc/kallsyms while still being allowed to see the full addresses
-    // (since init holds CAP_SYSLOG, and Linux boots with kptr_restrict=0). The
-    // address visibility through the saved fd (more specifically, the backing
-    // open file description) will then be remembered by the kernel for the rest
-    // of its lifetime, even after we raise the kptr_restrict.
-    Service::OpenAndSaveStaticKallsymsFd();
-
-    am.QueueBuiltinAction(SetupCgroupsAction, "SetupCgroups");
-    am.QueueBuiltinAction(SetKptrRestrictAction, "SetKptrRestrict");
-    am.QueueBuiltinAction(TestPerfEventSelinuxAction, "TestPerfEventSelinux");
-    am.QueueEventTrigger("early-init");
-    am.QueueBuiltinAction(ConnectEarlyStageSnapuserdAction, "ConnectEarlyStageSnapuserd");
-
-    // Queue an action that waits for coldboot done so we know ueventd has set up all of /dev...
-    am.QueueBuiltinAction(wait_for_coldboot_done_action, "wait_for_coldboot_done");
-    // ... so that we can start queuing up actions that require stuff from /dev.
-    am.QueueBuiltinAction(SetMmapRndBitsAction, "SetMmapRndBits");
-    Keychords keychords;
-    am.QueueBuiltinAction(
-            [&epoll, &keychords](const BuiltinArguments& args) -> Result<void> {
-                for (const auto& svc : ServiceList::GetInstance()) {
-                    keychords.Register(svc->keycodes());
-                }
-                keychords.Start(&epoll, HandleKeychord);
-                return {};
-            },
-            "KeychordInit");
-
+...
+    
     // Trigger all the boot actions to get us started.
     am.QueueEventTrigger("init");
 
@@ -287,7 +244,7 @@ int SecondStageMain(int argc, char** argv) {
     // Run all property triggers based on current state of the properties.
     am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
 
-	// 死循环
+	// 死循环，进行事件监听
     // Restore prio before main loop
     setpriority(PRIO_PROCESS, 0, 0);
     while (true) {
