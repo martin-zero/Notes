@@ -35,6 +35,10 @@
   "Appearance-light@@accent-color-override-light": false,
   "Appearance-light@@mod-right-split-background-select-light": "mod-right-split-background-primary-light",
   "Editor@@editor-grid-background-pattren": false,
-  "Editor@@codeblock-style-select": "codeblock-style-one-dark",
-  "Editor@@border-focus-mode": false
+  "Editor@@codeblock-style-select": "codeblock-style-customize",
+  "Editor@@border-focus-mode": false,
+  "Plugin@@DB-table-full-width-off": true,
+  "Plugin@@Projects-bg-color": "Projects-bg-color-default",
+  "Plugin@@colorful-checkbox": true,
+  "Components@@new-tab-image-select": "new-tab-image-default"
 }

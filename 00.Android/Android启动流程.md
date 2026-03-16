@@ -145,8 +145,7 @@ int FirstStageMain(int argc, char** argv) {
             LOG(FATAL) << "Can't mkdir " << dir << ": " << ec.message();
         }
         if (!fs::copy_file(kBootImageRamdiskProp, dest, ec)) {
-            LOG(FATAL) << "Can't copy " << kBootImageRamdiskProp << " to " << dest << ": "
-                       << ec.message();
+            LOG(FATAL) << "Can't copy " << kBootImageRamdiskProp << " to " << dest << ": " << ec.message();
         }
         LOG(INFO) << "Copied ramdisk prop to " << dest;
     }
@@ -159,13 +158,11 @@ int FirstStageMain(int argc, char** argv) {
         std::error_code ec;  // to invoke the overloaded copy_file() that won't throw.
         if (access(adb_debug_prop_src, F_OK) == 0 &&
             !fs::copy_file(adb_debug_prop_src, kDebugRamdiskProp, ec)) {
-            LOG(WARNING) << "Can't copy " << adb_debug_prop_src << " to " << kDebugRamdiskProp
-                         << ": " << ec.message();
+            LOG(WARNING) << "Can't copy " << adb_debug_prop_src << " to " << kDebugRamdiskProp << ": " << ec.message();
         }
         if (access(userdebug_plat_sepolicy_cil_src, F_OK) == 0 &&
             !fs::copy_file(userdebug_plat_sepolicy_cil_src, kDebugRamdiskSEPolicy, ec)) {
-            LOG(WARNING) << "Can't copy " << userdebug_plat_sepolicy_cil_src << " to "
-                         << kDebugRamdiskSEPolicy << ": " << ec.message();
+            LOG(WARNING) << "Can't copy " << userdebug_plat_sepolicy_cil_src << " to " << kDebugRamdiskSEPolicy << ": " << ec.message();
         }
         // setenv for second-stage init to read above kDebugRamdisk* files.
         setenv("INIT_FORCE_DEBUGGABLE", "true", 1);

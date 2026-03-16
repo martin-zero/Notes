@@ -1,7 +1,7 @@
 {
   "theme": "system",
   "interfaceFontFamily": "JetBrains Mono,Google Sans Code",
-  "translucency": true,
+  "translucency": false,
   "cssTheme": "Border",
   "nativeMenus": true,
   "showRibbon": true,
