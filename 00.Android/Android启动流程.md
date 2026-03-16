@@ -449,6 +449,7 @@ private void run() {
         try {
             t.traceBegin("InitBeforeStartServices");
 
+			// 记录启动信息
             // Record the process start information in sys props.
             SystemProperties.set(SYSPROP_START_COUNT, String.valueOf(mStartCount));
             SystemProperties.set(SYSPROP_START_ELAPSED, String.valueOf(mRuntimeStartElapsedTime));
@@ -457,17 +458,10 @@ private void run() {
             EventLog.writeEvent(EventLogTags.SYSTEM_SERVER_START,
                     mStartCount, mRuntimeStartUptime, mRuntimeStartElapsedTime);
 
-            // Set the device's time zone (a system property) if it is not set or is invalid.
+            // 时区与语言初始化
             SystemTimeZone.initializeTimeZoneSettingsIfRequired();
 
-            // If the system has "persist.sys.language" and friends set, replace them with
-            // "persist.sys.locale". Note that the default locale at this point is calculated
-            // using the "-Duser.locale" command line flag. That flag is usually populated by
-            // AndroidRuntime using the same set of system properties, but only the system_server
-            // and system apps are allowed to set them.
-            //
-            // NOTE: Most changes made here will need an equivalent change to
-            // core/jni/AndroidRuntime.cpp
+
             if (!SystemProperties.get("persist.sys.language").isEmpty()) {
                 final String languageTag = Locale.getDefault().toLanguageTag();
 
@@ -477,15 +471,12 @@ private void run() {
                 SystemProperties.set("persist.sys.localevar", "");
             }
 
-            // The system server should never make non-oneway calls
             Binder.setWarnOnBlocking(true);
-            // The system server should always load safe labels
             PackageItemInfo.forceSafeLabels();
 
-            // Default to FULL within the system server.
+            // SQLite初始化
             SQLiteGlobal.sDefaultSyncMode = SQLiteGlobal.SYNC_MODE_FULL;
 
-            // Deactivate SQLiteCompatibilityWalFlags until settings provider is initialized
             SQLiteCompatibilityWalFlags.init(null);
 
             // Here we go!
