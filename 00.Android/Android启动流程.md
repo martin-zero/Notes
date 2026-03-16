@@ -442,4 +442,4 @@ int main(int argc, char* const argv[])
 ```
 
 # SystemServer
-zygote fork出SystemServer后会通过反射运行`frameworks/base/services/java/com/android/server/SystemServer.java`
+zygote fork出SystemServer后会通过反射运行[frameworks/base/services/java/com/android/server/SystemServer.java](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/services/java/com/android/server/SystemServer.java;l=329;drc=61197364367c9e404c7da6900658f1b16c42d0da;bpv=0;bpt=1?q=SystemServer&sq=&ss=android%2Fplatform%2Fsuperproject%2Fmain&hl=zh-cn) 的main方法。main方法中只运行了`new SystemServer().run()`
