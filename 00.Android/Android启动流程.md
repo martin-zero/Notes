@@ -100,6 +100,7 @@ int FirstStageMain(int argc, char** argv) {
     auto want_parallel =
             bootconfig.find("androidboot.load_modules_parallel = \"true\"") != std::string::npos;
 
+	// 加载 kernel modules
     boot_clock::time_point module_start_time = boot_clock::now();
     int module_count = 0;
     BootMode boot_mode = GetBootMode(cmdline, bootconfig);
