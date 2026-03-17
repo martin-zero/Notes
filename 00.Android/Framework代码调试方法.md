@@ -56,6 +56,12 @@ clear
 cont
 ```
 
+#### 单步执行
+```jdb
+step     // 进入函数
+next     // 不进入函数
+```
+
 #### 查看调用栈
 ```jdb
 where
@@ -69,12 +75,6 @@ locals
 #### 查看对象
 ```jdb
 print obj
-```
-
-#### 单步执行
-```jdb
-step     // 进入函数
-next     // 不进入函数
 ```
 
 #### 查看线程
@@ -126,11 +126,6 @@ settings set target.source-map /buildbot/aosp /home/user/aosp
 ```
 
 ## 代码调试
-#### 查看调用栈
-```lldb
-bt
-```
-
 #### 根据函数名设置断点
 ```lldb
 breakpoint set --name SurfaceFlinger::commit
@@ -150,6 +145,11 @@ continue
 ```lldb
 next
 step
+```
+
+#### 查看调用栈
+```lldb
+bt
 ```
 
 #### 查看变量
