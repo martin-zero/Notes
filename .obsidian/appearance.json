@@ -1,10 +1,11 @@
 {
-  "theme": "obsidian",
+  "theme": "system",
   "interfaceFontFamily": "JetBrains Mono,Google Sans Code",
   "translucency": false,
   "cssTheme": "Border",
   "nativeMenus": true,
   "showRibbon": true,
   "textFontFamily": "",
-  "monospaceFontFamily": ""
+  "monospaceFontFamily": "",
+  "baseFontSize": 14
 }

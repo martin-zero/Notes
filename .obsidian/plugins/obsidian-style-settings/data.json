@@ -31,7 +31,7 @@
   "Components@@outline-enhanced": true,
   "Components@@new-tab-btn-select": "new-tab-btn-default",
   "Appearance-light@@card-layout-open-light": true,
-  "Appearance-light@@theme-light-style-select": "theme-light-background-default",
+  "Appearance-light@@theme-light-style-select": "theme-light-background-adapt",
   "Appearance-light@@accent-color-override-light": false,
   "Appearance-light@@mod-right-split-background-select-light": "mod-right-split-background-primary-light",
   "Editor@@editor-grid-background-pattren": false,
@@ -43,5 +43,12 @@
   "Components@@new-tab-image-select": "new-tab-image-default",
   "Appearance-dark@@card-layout-open-dark": true,
   "Appearance-dark@@theme-dark-style-select": "theme-dark-background-default",
-  "Appearance-dark@@accent-color-override-dark": false
+  "Appearance-dark@@accent-color-override-dark": false,
+  "Components@@status-bar-autohide": false,
+  "Components@@setting-item-title-icon-remove": true,
+  "Components@@scrollbar-hide": false,
+  "Components@@restored-scrollbars": true,
+  "Appearance-light@@card-border-radius-light": "8px",
+  "Appearance-light@@card-shadow-light": "\"\"",
+  "Appearance-light@@Active-states-file-explorer-select-light": "activated-file-accent-light"
 }
