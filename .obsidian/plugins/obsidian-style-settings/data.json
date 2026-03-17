@@ -42,6 +42,6 @@
   "Plugin@@colorful-checkbox": true,
   "Components@@new-tab-image-select": "new-tab-image-default",
   "Appearance-dark@@card-layout-open-dark": true,
-  "Appearance-dark@@theme-dark-style-select": "theme-dark-background-brighter",
+  "Appearance-dark@@theme-dark-style-select": "theme-dark-background-default",
   "Appearance-dark@@accent-color-override-dark": false
 }
