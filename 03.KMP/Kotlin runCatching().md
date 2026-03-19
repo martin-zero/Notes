@@ -8,8 +8,8 @@ tags:
 
 ## 常用链式操作
 
-### `.getOrNull()`:成功时返回值，失败时返回null
-
+### getOrNull()
+**成功时返回值，失败时返回null**
 Android中Room数据库读取，失败不崩溃:
 
 ```kotlin
@@ -21,8 +21,8 @@ fun getUserOrNull(userId: Int): User? {
 
 ```
 
-### `.getOrElse{}`:失败时将该方法的结果作为返回值
-
+### getOrElse{}
+**失败时将该方法的结果作为返回值**
 Android中网络请求+本地缓存降级业务逻辑:
 
 ```kotlin
@@ -37,8 +37,8 @@ fun loadUserProfile(userId: String): UserProfile {
 
 ```
 
-### `.getOrThrow()`:失败重新抛出异常
-
+### getOrThrow()
+**失败重新抛出异常**
 Spring Boot中获取用户，读取失败则直接抛出异常：
 
 ```kotlin
@@ -48,8 +48,8 @@ val user = runCatching {
 
 ```
 
-### `.getOrDefault()`:失败则返回默认值
-
+### getOrDefault()
+**失败则返回默认值**
 读取配置文件，读取失败则使用默认值:
 
 ```kotlin
@@ -62,8 +62,8 @@ fun loadConfig(): AppConfig {
 
 ```
 
-### `.onSuccess {}`:成功时执行某操作，返回自身用于链式调用
-
+### onSuccess {}
+**成功时执行某操作，返回自身用于链式调用**
 当查到用户后进行输出，不影响调用的结果:
 
 ```kotlin
@@ -77,8 +77,8 @@ val user = result.getOrNull() // 继续拿来用
 
 ```
 
-### `.onFailure {}`:失败时执行某操作，返回自身用于链式调用
-
+### onFailure {}
+**失败时执行某操作，返回自身用于链式调用**
 Spring Boot中发送验证码，失败则记录到日志:
 
 ```kotlin
@@ -92,8 +92,8 @@ fun sendSmsCode(phone: String): Boolean {
 
 ```
 
-### `.fold()`:根据执行结果执行不同分支
-
+### fold()
+**根据执行结果执行不同分支**
 Spring Boot中统一包装API响应:
 
 ```kotlin
