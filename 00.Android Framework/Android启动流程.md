@@ -5,7 +5,7 @@ tags:
 ![](assets/Android启动流程/file-20260310153327161.png)
 
 # Kernel
-引导阶段、Linux Kernel启动阶段见[Linux启动流程](../01.嵌入式/Linux启动流程.md)。
+引导阶段、Linux Kernel启动阶段见[Linux启动流程](../01.Linux/Linux启动流程.md)。
 #TODO 差异化 
 
 # Init
