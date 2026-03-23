@@ -68,10 +68,10 @@ tags:
 ## vimgrep
 `vimgrep` 是 Vim/Neovim 自带的“正则全文搜索命令”，用于在一个或多个文件中查找内容，并把结果放进 QuickFix（或 Location List）里。\<leader\>xq
 ```vim
-:vim /{pattern}/ {files}
+:vim /<pattern>/ <files>
 ```
-- `{pattern}` 搜索关键词。使用正则表达式进行匹配，使用`\V`关闭。
-- `{files}` 搜索范围。支持通配符与递归搜索，常用范围如下表
+- `<pattern>` 搜索关键词。使用正则表达式进行匹配，使用`\V`关闭。
+- `<files>` 搜索范围。支持通配符与递归搜索，常用范围如下表
 
 | **写法**    | **说明**       |
 | --------- | ------------ |
@@ -82,7 +82,7 @@ tags:
 | ##        | 所有已打开的buffer |
 
 ## 切换字符编码
-
+以设定字符编码重新打开文件。
 ```vim
 :e ++enc=<encoding>
 ```
