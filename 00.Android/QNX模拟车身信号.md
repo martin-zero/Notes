@@ -1,3 +1,9 @@
+---
+tags:
+  - 项目/吉利
+---
+
+
 QNX模拟车身信号，收( -r)发(-w)。carmode切到0，usgmode（ -p 557849093）切到driving(-d 13).
 VehicleTool -r -s 1 -p 557849092 -a 0 -d 0 && VehicleTool -r -s 1 -p 557849093 -a 0 -d 13
 # VehicleTool -h
