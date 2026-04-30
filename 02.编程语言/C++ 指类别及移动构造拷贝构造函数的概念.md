@@ -49,5 +49,5 @@ i++; // 后置自增是右值
 
 ### 示例
 ```cpp
-	int&& b = std::move(a); // 被std::move修饰的变量是将亡值
+	int&& b = std::move(a); // 被std::move修饰的变量将变为将亡值
 ```
