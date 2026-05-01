@@ -86,3 +86,42 @@ sudo upgrade_tool di -vbmeta vbmeta.img
 ## scrcpy 
 GitHub: https://github.com/Genymobile/scrcpy
 用于在电脑上显示和控制您的安卓设备
+
+
+### 串口
+```
+picocom -b 1500000 /dev/ttyUSB0
+```
+
+### Dockerfile
+```dockerfile
+FROM ubuntu:14.04
+
+# 设置环境变量
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 安装JDK 8
+RUN add-apt-repository ppa:openjdk-r/ppa && \
+    apt-get update && \
+    apt-get install -y openjdk-8-jdk
+    
+# 更新系统并安装必要的包
+RUN  apt-get install -y \
+    git-core gnupg flex bison gperf libsdl1.2-dev \
+    libesd0-dev libwxgtk2.8-dev squashfs-tools build-essential zip curl \
+    libncurses5-dev zlib1g-dev pngcrush schedtool libxml2 libxml2-utils \
+    xsltproc lzop libc6-dev schedtool g++-multilib lib32z1-dev lib32ncurses5-dev \
+    lib32readline-gplv2-dev gcc-multilib libswitch-perl \
+    libssl1.0.0 libssl-dev p7zip-full \
+    software-properties-common swig python-dev bc
+
+
+# 清理缓存，减少镜像大小
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 创建工作目录
+WORKDIR /aosp
+
+# 设置默认命令
+CMD ["bash"]
+```
