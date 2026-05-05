@@ -1,5 +1,6 @@
 ---
 tags:
+  - Android
 ---
 ![](assets/Android启动流程/file-20260310153327161.png)
 
