@@ -7,3 +7,4 @@ Android 的 **cmdline（kernel command line）** 是在内核启动时由 bootlo
 这些参数通常可以在 `/proc/cmdline` 中查看。
 
 ---
+#TODO 
