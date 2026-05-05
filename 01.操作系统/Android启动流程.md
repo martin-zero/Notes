@@ -1,6 +1,5 @@
 ---
 tags:
-  - 技术栈/Android/Framework
 ---
 ![](assets/Android启动流程/file-20260310153327161.png)
 

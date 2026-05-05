@@ -1,7 +1,5 @@
 ---
 tags:
-  - "#工具/cmake"
-  - 语言/c
 ---
 
 ## 生成compile_commands.json
