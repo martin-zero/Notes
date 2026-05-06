@@ -6,3 +6,10 @@ tags:
 date: 2026-05-06
 ---
 > Makefile文件用于描述C/C++工程的编译规则，用来自动化编译大型C/C++项目。
+
+# 语法
+## 规则
+```Makefile
+targets : prerequisites; [command]
+	command
+```
