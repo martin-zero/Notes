@@ -3,7 +3,7 @@ tags:
 
   - C
   - Cpp
-  - CMake
+
 ---
 
 ## 生成compile_commands.json
