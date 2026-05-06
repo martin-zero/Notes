@@ -1,6 +1,5 @@
 ---
 tags:
-  - 技术栈/Android/Framework
 ---
 
 ## 1.准备App源码
