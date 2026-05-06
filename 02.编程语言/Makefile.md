@@ -26,9 +26,18 @@ targets: prerequisites1 prerequisites2
 
 ## 变量
 
+
 ## 伪目标
+可以通过伪目标实现一些快速命令，通过`make \<targets>` 来使用。
 
 ```Makefile
+targets:
+	command
+```
+
+但是如果有与targets同名的文件，便不会执行该伪目标，我们可以用 `.PHONY:`显式声明一个目标为伪目标。
+```Makefile
+.PHONY: targets
 targets:
 	command
 ```
