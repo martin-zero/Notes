@@ -22,8 +22,6 @@ targets: prerequisites1 prerequisites2
 > [!注意]
 >  在Makefile的规则中，命令必须以Tab开头，不能是空格。
 
-
-
 ## 变量
 
 
