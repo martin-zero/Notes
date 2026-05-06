@@ -1,5 +1,7 @@
 ---
 tags:
+  - C
+  - Cpp
 ---
 
 ## 生成compile_commands.json
