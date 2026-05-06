@@ -1,9 +1,8 @@
 ---
 tags:
-
   - C
   - Cpp
-
+  - 编译工具
 ---
 
 ## 生成compile_commands.json
