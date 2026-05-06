@@ -44,13 +44,40 @@ ServiceManager 的职责是给所有 Binder 服务发"114 黄页"。可它自己
 ServiceManager 是 Android 启动链路里的一个关键节点。整个链路从下往上是：
 
 ```
-bootloader  ↓linux kernel 启动  ↓init 进程 (pid 1，第一个用户态进程)  ↓ 解析 init.rc  ↓servicemanager 进程  <-- 我们在这里  ↓zygote 进程  ↓SystemServer 进程  (AMS / WMS / PMS 都在这里)  ↓Launcher 进程
+bootloader  
+  ↓  
+linux kernel 启动  
+  ↓  
+init 进程 (pid 1，第一个用户态进程)  
+  ↓ 解析 init.rc  
+  ↓  
+servicemanager 进程  <-- 我们在这里  
+  ↓  
+zygote 进程  
+  ↓  
+SystemServer 进程  (AMS / WMS / PMS 都在这里)  
+  ↓  
+Launcher 进程
 ```
 
 **关键就在 init 解析 init.rc 那一步**。Android 的 init 进程会读 `/system/etc/init/` 目录下一堆 .rc 文件，其中有一个 `servicemanager.rc`，长这样（Android 14 真实路径 `frameworks/native/cmds/servicemanager/servicemanager.rc`）：
 
 ```
-service servicemanager /system/bin/servicemanager    class core animation    user system    group system readproc    critical    file /dev/kmsg w    onrestart setprop servicemanager.ready false    onrestart restart --only-if-running apexd    onrestart restart audioserver    onrestart restart gatekeeperd    onrestart class_restart --only-enabled main    onrestart class_restart --only-enabled hal    onrestart class_restart --only-enabled early_hal    writepid /dev/cpuset/system-background/tasks    shutdown critical
+service servicemanager /system/bin/servicemanager  
+    class core animation  
+    user system  
+    group system readproc  
+    critical  
+    file /dev/kmsg w  
+    onrestart setprop servicemanager.ready false  
+    onrestart restart --only-if-running apexd  
+    onrestart restart audioserver  
+    onrestart restart gatekeeperd  
+    onrestart class_restart --only-enabled main  
+    onrestart class_restart --only-enabled hal  
+    onrestart class_restart --only-enabled early_hal  
+    writepid /dev/cpuset/system-background/tasks  
+    shutdown critical
 ```
 
 我把这段配置里最关键的几条圈给你：
@@ -79,15 +106,45 @@ service servicemanager /system/bin/servicemanager    class core animation   
 
 把这 90 行的核心摘出来：
 
-```
-int main(int argc, char** argv) {    if (argc > 2) {        LOG(FATAL) << "usage: " << argv[0] << " [binder driver]";    }    const char* driver = argc == 2 ? argv[1] : "/dev/binder";    sp<ProcessState> ps = ProcessState::initWithDriver(driver);    ps->setThreadPoolMaxThreadCount(0);    ps->setCallRestriction(ProcessState::CallRestriction::FATAL_IF_NOT_ONEWAY);    sp<ServiceManager> manager = sp<ServiceManager>::make(std::make_unique<Access>());    if (!manager->addService("manager", manager, false /*allowIsolated*/,                              IServiceManager::DUMP_FLAG_PRIORITY_DEFAULT).isOk()) {        LOG(ERROR) << "Could not self register servicemanager";    }    IPCThreadState::self()->setTheContextObject(manager);    ps->becomeContextManager();    sp<Looper> looper = Looper::prepare(false /*allowNonCallbacks*/);    BinderCallback::setupTo(looper);    ClientCallbackCallback::setupTo(looper, manager);    while(true) {        looper->pollAll(-1);    }    return EXIT_FAILURE;}
+```cpp
+int main(int argc, char** argv) {  
+    if (argc > 2) {  
+        LOG(FATAL) << "usage: " << argv[0] << " [binder driver]";  
+    }  
+  
+    const char* driver = argc == 2 ? argv[1] : "/dev/binder";  
+  
+    sp<ProcessState> ps = ProcessState::initWithDriver(driver);  
+    ps->setThreadPoolMaxThreadCount(0);  
+    ps->setCallRestriction(ProcessState::CallRestriction::FATAL_IF_NOT_ONEWAY);  
+  
+    sp<ServiceManager> manager = sp<ServiceManager>::make(std::make_unique<Access>());  
+    if (!manager->addService("manager", manager, false /*allowIsolated*/,  
+                              IServiceManager::DUMP_FLAG_PRIORITY_DEFAULT).isOk()) {  
+        LOG(ERROR) << "Could not self register servicemanager";  
+    }  
+  
+    IPCThreadState::self()->setTheContextObject(manager);  
+    ps->becomeContextManager();  
+  
+    sp<Looper> looper = Looper::prepare(false /*allowNonCallbacks*/);  
+  
+    BinderCallback::setupTo(looper);  
+    ClientCallbackCallback::setupTo(looper, manager);  
+  
+    while(true) {  
+        looper->pollAll(-1);  
+    }  
+  
+    return EXIT_FAILURE;  
+}
 ```
 
 短短二十几行。咱们一段一段拆。
 
 ### 拆第 1 段：打开 /dev/binder
 
-```
+```cpp
 sp<ProcessState> ps = ProcessState::initWithDriver(driver);
 ```
 
@@ -99,7 +156,7 @@ sp<ProcessState> ps = ProcessState::initWithDriver(driver);
 
 但是 ServiceManager 这里有个**特殊配置**：
 
-```
+```cpp
 ps->setThreadPoolMaxThreadCount(0);
 ```
 
@@ -111,8 +168,9 @@ ps->setThreadPoolMaxThreadCount(0);
 
 ### 拆第 2 段：自己把自己加进 map（神操作）
 
-```
-sp<ServiceManager> manager = sp<ServiceManager>::make(std::make_unique<Access>());manager->addService("manager", manager, ...);
+```cpp
+sp<ServiceManager> manager = sp<ServiceManager>::make(std::make_unique<Access>());
+manager->addService("manager", manager, ...);
 ```
 
 注意第二行——**ServiceManager 在自己的服务表里，也注册了一份自己**，名字叫 "manager"。
@@ -125,8 +183,9 @@ sp<ServiceManager> manager = sp<ServiceManager>::make(std::make_unique<Access>()
 
 ### 拆第 3 段：真正的自举——becomeContextManager()
 
-```
-IPCThreadState::self()->setTheContextObject(manager);ps->becomeContextManager();
+```cpp
+IPCThreadState::self()->setTheContextObject(manager);
+ps->becomeContextManager();
 ```
 
 这才是回答张工那道题的灵魂代码。
@@ -135,8 +194,13 @@ IPCThreadState::self()->setTheContextObject(manager);ps->becomeContextManager();
 
 代码大致是这样的（在 `ProcessState.cpp` 里）：
 
-```
-bool ProcessState::becomeContextManager() {    // ...    flat_binder_object obj { .flags = FLAT_BINDER_FLAG_TXN_SECURITY_CTX };    int result = ioctl(mDriverFD, BINDER_SET_CONTEXT_MGR_EXT, &obj);    // ...}
+```cpp
+bool ProcessState::becomeContextManager() {  
+    // ...  
+    flat_binder_object obj { .flags = FLAT_BINDER_FLAG_TXN_SECURITY_CTX };  
+    int result = ioctl(mDriverFD, BINDER_SET_CONTEXT_MGR_EXT, &obj);  
+    // ...  
+}
 ```
 
 `BINDER_SET_CONTEXT_MGR_EXT` 这条命令进了 Binder 驱动以后，驱动内部维护了一个全局变量 `binder_context_mgr_node`——这是个指向 ServiceManager 那个 binder 实体的指针。**这个指针在 Binder 驱动整个生命周期里只能被设置一次**，由内核保证排他。
@@ -159,8 +223,20 @@ ServiceManager 不是被某个"更高一级的服务"注册的，**它是被 Bin
 
 服务端钦点完了，客户端这边其实就简单了。我贴一段你天天用但可能没细看的代码——**`getService` 内部是怎么走的**：
 
-```
-// frameworks/native/libs/binder/IServiceManager.cppsp<IServiceManager> defaultServiceManager() {    if (gDefaultServiceManager != nullptr) return gDefaultServiceManager;    // ...    while (gDefaultServiceManager == nullptr) {        gDefaultServiceManager = interface_cast<IServiceManager>(            ProcessState::self()->getContextObject(nullptr));        if (gDefaultServiceManager == nullptr) sleep(1);    }    return gDefaultServiceManager;}
+```cpp
+// frameworks/native/libs/binder/IServiceManager.cpp  
+sp<IServiceManager> defaultServiceManager() {  
+    if (gDefaultServiceManager != nullptr) return gDefaultServiceManager;  
+  
+    // ...  
+    while (gDefaultServiceManager == nullptr) {  
+        gDefaultServiceManager = interface_cast<IServiceManager>(  
+            ProcessState::self()->getContextObject(nullptr));  
+        if (gDefaultServiceManager == nullptr) sleep(1);  
+    }  
+  
+    return gDefaultServiceManager;  
+}
 ```
 
 注意这一行：`ProcessState::self()->getContextObject(nullptr)`。
