@@ -48,4 +48,8 @@ git rebase origin/主分支名称
 git push --force-with-lease
 ```
 
-## 5. 
+## 5. 合入主干分支
+当该分支功能彻底开发完成后，我们需要将分支合入主干分支
+```sh
+git 
+```
