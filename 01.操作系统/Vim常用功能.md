@@ -45,7 +45,7 @@ tags:
 | i   | 忽略大小写   |
 
 ## vimgrep
-`vimgrep` 是 Vim/Neovim 自带的“正则全文搜索命令”，用于在一个或多个文件中查找内容，并把结果放进 QuickFix（或 Location List）里。\<leader\>xq
+`vimgrep` 是 Vim/Neovim 自带的“正则全文搜索命令”，用于在一个或多个文件中查找内容，之后可以使用:copen查看匹配项目
 ```vim
 :vim /<pattern>/ <files>
 ```
