@@ -38,4 +38,7 @@ git push
 ```sh
 git fetch origin
 ```
-之后将功能分支
+之后将我们的功能分支变基到主分支
+```sh
+git rebase 主分支名称
+```
