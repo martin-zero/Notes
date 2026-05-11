@@ -33,6 +33,7 @@ git commit
 ```sh
 git push
 ```
+
 ## 4.保持最新
 有时候主干分支会有新的提交或者bug修复，我们需要定期保证我们的分支为基于最新版本的主干分支代码。首先我们从云端更新主干分支
 ```sh
@@ -40,5 +41,11 @@ git fetch origin
 ```
 之后将我们的功能分支变基到主分支
 ```sh
-git rebase 主分支名称
+git rebase origin/主分支名称
 ```
+变基之后我们想要push到远端需要使用强制推送
+```sh
+git push --force-with-lease
+```
+
+## 5. 
