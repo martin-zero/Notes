@@ -1,10 +1,13 @@
-## IPC通信 模块之间也用IPC通信
-**Proxy端**客户端
+## IPC通信
+（ 模块之间也用IPC通信）
+**Proxy端** 客户端
+继承MsgProxy
 Connect建立连接
 RegNotify注册广播
 StartNotify通知广播订阅
 
-**Server端**服务端
+**Server端** 服务端
+继承MsgServer
 Notify发送广播
 
 ## 模块
