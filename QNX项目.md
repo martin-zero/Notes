@@ -18,4 +18,5 @@ Notify发送广播
 **Process** 实例化？
 **SettingServer** 断电不丢失 psisReadKey表格
 **SPICommServer服务**(SOC  <-> MCU FDBUS通信)低软SPI  switch中解析分发mcu中的信号
-TCS
+**TCServer** 行车数据相关 里程、保养信息。。
+  **TelltaleServer** TT灯
