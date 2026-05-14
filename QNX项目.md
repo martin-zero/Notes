@@ -1,4 +1,4 @@
-IPC通信
+## IPC通信 模块之间也用IPC通信
 **Proxy端**客户端
 Connect建立连接
 RegNotify注册广播
@@ -7,6 +7,7 @@ StartNotify通知广播订阅
 **Server端**服务端
 Notify发送广播
 
+## 模块
 **APPWatchdog** HAM 看门狗 崩溃拉起进程
 **ClusterIVIServer** 与IVI交互
 **GaugeServer** 表头信息 转速 功率。。。 阻尼处理
@@ -24,3 +25,4 @@ Notify发送广播
 **Utils** 公式转换 单位转换
 **VehicleComm** 与IVI交互
 **WarningServer** 从SPI模块转发给HMI Lib
+**Script** 进程启动脚本
