@@ -8,6 +8,7 @@ StartNotify通知广播订阅
 Notify发送广播
 
 ## 模块
+**Middleware**
 **APPWatchdog** HAM 看门狗 崩溃拉起进程
 **ClusterIVIServer** 与IVI交互
 **GaugeServer** 表头信息 转速 功率。。。 阻尼处理
@@ -26,3 +27,10 @@ Notify发送广播
 **VehicleComm** 与IVI交互
 **WarningServer** 从SPI模块转发给HMI Lib
 **Script** 进程启动脚本
+
+sdk
+**external** proto文件 无用了
+**testApp** 测试用 无用
+
+**HMI** 
+Lib
