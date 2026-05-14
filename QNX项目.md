@@ -21,4 +21,6 @@ Notify发送广播
 **TCServer** 行车数据相关 里程、保养信息。。
 **TelltaleServer** TT灯
 **Timer** 定时器
-Utils 公式转换 
+**Utils** 公式转换 单位转换
+**VehicleComm** 与IVI交互
+**WarningServer** 从SPI模块转发给HMI Lib
