@@ -19,3 +19,7 @@ svn info
 svn log
 ```
 
+## 更新目录
+```sh
+svn up
+```
