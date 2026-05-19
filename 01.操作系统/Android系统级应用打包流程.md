@@ -2,7 +2,6 @@
 tags:
   - Android
 ---
-
 ## 1.准备App源码
 
 首先按照正常Android App开发流程开发App。
