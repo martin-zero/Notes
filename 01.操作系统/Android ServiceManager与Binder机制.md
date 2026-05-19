@@ -1,6 +1,6 @@
 ---
 tags:
-  - Android
+  - Android系统
 原文链接: https://mp.weixin.qq.com/s/fbaovmnp4Im7uwej9pnYSQ
 ---
 上周三晚上九点半，深圳南山一家 ROM 厂商现场面，面试官姓张。

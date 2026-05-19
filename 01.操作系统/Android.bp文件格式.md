@@ -1,6 +1,6 @@
 ---
 tags:
-  - Android
+  - Android系统
 官方文档: https://source.android.com/docs/setup/reference/androidbp?hl=zh-cn
 ---
 
