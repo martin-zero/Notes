@@ -82,7 +82,7 @@ print obj
 ```
 
 #### 查看线程
-```
+```jdb
 threads
 thread <id>
 ```

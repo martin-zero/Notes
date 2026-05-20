@@ -4,9 +4,11 @@ tags:
   - Cpp
 ---
 
-	本篇以clang编译器为例，gcc与其类似
+# Clang 编译器语法
 
-# 直接编译
+> 本篇以 Clang 编译器为例，GCC 与其类似。
+
+## 直接编译
 编译main.c文件为main可执行文件
 ```sh
 clang main.c -o main

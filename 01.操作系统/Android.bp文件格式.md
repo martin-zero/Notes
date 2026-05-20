@@ -11,7 +11,7 @@ tags:
 
 ## 整体结构
 
-```bash
+```bp
 <module_type> {
     name: "模块名称",
     srcs: ["源文件1", "源文件2", ...],
@@ -36,7 +36,7 @@ tags:
 
 ### App模块(android_app)
 
-```bash
+```bp
 android_app {
     name: "MySystemApp",             // 模块名，最终 apk 输出名为 MySystemApp.apk
     srcs: ["src/**/*.java", "src/**/*.kt"], // Java, Kotlin 源文件路径
@@ -77,7 +77,7 @@ android_app {
 
 ### 预编译文件模块（prebuilt)
 
-```bash
+```bp
 prebuilt_etc {
     name: "my_config_xml",
     src: "my_config.xml",
@@ -91,7 +91,7 @@ prebuilt_etc {
 
 用于收集一组文件，供其他模块引用（如 aidl、proto）：
 
-```bash
+```bp
 filegroup {
     name: "my_aidl_files",
     srcs: ["src/**/*.aidl"],

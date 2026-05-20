@@ -12,7 +12,7 @@ tags:
 
 ## 3.编写Android.bp文件
 
-在项目根目录下创建[Android.bp文件格式](Android.bp文件格式.md)文件。
+在项目根目录下创建 [[Android.bp文件格式]] 文件。
 
 ```bp
 android_app {
@@ -63,7 +63,7 @@ MySystemApp  # 你的系统App名称，对应Android.bp中name字段
 
 使用以下命令可以单编完成构建
 
-```bash
+```sh
 source build/envsetup.sh
 lunch aosp_arm64-eng
 make MySystemApp -j8
