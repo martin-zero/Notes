@@ -5,9 +5,7 @@ tags:
 
 # Android.bp 文件格式
 
-> 官方文档：[Android.bp Reference](https://source.android.com/docs/setup/reference/androidbp?hl=zh-cn)
-
-> 在 AOSP 中，Android.bp 是使用 Soong 构建系统 的蓝图文件（Blueprint），用于替代老旧的 Android.mk。它采用的是 JSON 类似的 结构化声明方式，用于描述模块的构建方式，例如 app、库、jar、C/C++ 模块等。
+本文介绍 AOSP 中 Android.bp（Soong 构建系统的蓝图文件）的格式与常用模块类型。它是 [[Android.mk]] 的继任者，采用类 JSON 的结构化声明方式。
 
 ## 整体结构
 
@@ -97,5 +95,15 @@ filegroup {
     srcs: ["src/**/*.aidl"],
     path: "src",
 }
+
+```
+
+> 官方文档：[Android.bp Reference](https://source.android.com/docs/setup/reference/androidbp?hl=zh-cn)
+
+## 相关笔记
+
+- [[Android系统级应用打包流程]]
+- [[Makefile语法]]
+- [[CMake常用命令]]
 
 ```

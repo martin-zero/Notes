@@ -14,7 +14,7 @@ tags:
 clang main.c -o main
 ```
 
-# 分阶段编译
+## 分阶段编译
 ## 预处理
 预处理main.c 生成文件main.i
 ```sh
@@ -39,8 +39,13 @@ clang -c main.c -o main.o
 clang main.o -o main
 ```
 
-# 调试
-使用`-g` 添加调试信息以供gdb、lldb调试
+## 调试
+使用 `-g` 添加调试信息以供 [[gdb调试器的使用|gdb]]、lldb 调试。
 ```sh
 clang -g main.c -o main
 ```
+
+## 相关笔记
+
+- [[CMake常用命令]]
+- [[gdb调试器的使用]]

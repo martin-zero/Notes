@@ -10,3 +10,7 @@ tags:
 > - [ ] 深拷贝 (deep copy) 实现方式
 > - [ ] 拷贝构造函数与赋值运算符
 > - [ ] Rule of Three / Rule of Five
+
+## 相关笔记
+
+- [[C++ 值类别概念]]

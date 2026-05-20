@@ -2,15 +2,18 @@
 tags:
   - Android系统
 ---
-## 1.准备App源码
+
+# Android 系统级应用打包流程
+
+## 1. 准备 App 源码
 
 首先按照正常Android App开发流程开发App。
 
-## 2.放入源码目录
+## 2. 放入源码目录
 
 将项目放置到源码目录中，一般在`packages/apps/`或者`vendor/<your_company>/apps/`目录下。
 
-## 3.编写Android.bp文件
+## 3. 编写 Android.bp 文件
 
 在项目根目录下创建 [[Android.bp文件格式]] 文件。
 
@@ -30,7 +33,7 @@ android_app {
 
 ```
 
-## 4.声明系统级权限
+## 4. 声明系统级权限
 
 如果App用到系统权限，需要在AndroidManifast.xml中声明。
 
@@ -49,7 +52,7 @@ android_app {
 
 ```
 
-## 5.加入构建系统
+## 5. 加入构建系统
 
 在对应的 `device/<vendor>/<device>/device.mk` 或者`build/target/product/core.mk`等产品配置中加入：
 
@@ -59,7 +62,7 @@ MySystemApp  # 你的系统App名称，对应Android.bp中name字段
 
 ```
 
-## 6.完成构建
+## 6. 完成构建
 
 使用以下命令可以单编完成构建
 
@@ -71,3 +74,9 @@ make MySystemApp -j8
 ```
 
 如果Android.bp中声明了`privileged: true`则会构建在`/system/priv-app/`目录中，否则则构建在`/system/app/`中。
+
+## 相关笔记
+
+- [[Android.bp文件格式]]
+- [[Android启动流程]]
+- [[ROC-RK3328-PC编译、烧录、调试]]

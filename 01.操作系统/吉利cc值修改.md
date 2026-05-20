@@ -3,25 +3,39 @@ tags:
   - 吉利
 ---
 
+# 吉利 CC 值修改
 
-[~Bosch_Sync] 你好，测试是通过adb 命令修改的CC配置，是在工程模式设置中开启ADB模式后，然后用双公头线连接的电脑与车机端，通过adb命令
+通过 adb 命令行临时修改 CC（Car Configuration）配置的方法，仅供开发调试使用。
 
-su  
-busybox telnet 192.168.118.2  
-root  
-test_psis_car_cfg CFG_CAR_CONFIGURATION xx x 
+## 临时修改 CC（SOC 侧）
 
-来配置的CC
+通过 adb 连接车机，使用 telnet 进入 QNX 侧执行：
 
+```sh
+su
+busybox telnet 192.168.118.2
+root
+test_psis_car_cfg CFG_CAR_CONFIGURATION xx x
+```
 
-Commented by HU Yilang (XC-CT/ESA2-CN) on 2022-08-04T01:31:55.280Z:  
->testpsiscarcfg CFGCAR_CONFIGURATION xx x  
-只是临时测试方法，方便开发快速验证功能  
-该命令只修改了SOC侧的CC配置， 未修改SCC的cc配置  
-  
-因此当你使用正式方法--台架测试功能时，应当从台架输入CC数据到SCC侧，并记得退出SOC的测试模式：  
-> psis_client -w -1 hut_cfg CFG_DEBUG_MODE 0  
-> bosch_reset  
-  
-台架输入CC和手动命令行输入CC不能混用。  
-UM=Abandoned再发送UM=Driving后， SCC会覆盖当前SOC的CC配置，这是正常的流程。
+> [!WARNING] 仅临时测试
+> 该命令只修改 SOC 侧的 CC 配置，未修改 SCC 侧的 CC 配置。
+> 只适用于开发快速验证功能，不可用于正式台架测试。
+
+## 退出测试模式
+
+正式台架测试时，应当从台架输入 CC 数据到 SCC 侧，并退出 SOC 的测试模式：
+
+```sh
+psis_client -w -1 hut_cfg CFG_DEBUG_MODE 0
+bosch_reset
+```
+
+> [!IMPORTANT] 注意事项
+> 台架输入 CC 和手动命令行输入 CC 不能混用。
+> UM=Abandoned 再发送 UM=Driving 后，SCC 会覆盖当前 SOC 的 CC 配置，这是正常的流程。
+
+## 相关笔记
+
+- [[吉利QNX模拟车身信号]]
+- [[吉利日志分析思路与步骤]]

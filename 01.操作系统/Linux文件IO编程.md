@@ -12,3 +12,9 @@ date: 2026-05-16
 > - [ ] `lseek` / `pwrite`
 > - [ ] `ioctl`
 > - [ ] `mmap`
+
+## 相关笔记
+
+- [[Linux多线程编程]]
+- [[Linux网络编程]]
+- [[Linux进程间通信]]

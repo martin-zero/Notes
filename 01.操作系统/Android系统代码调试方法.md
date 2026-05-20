@@ -3,9 +3,13 @@ tags:
   - Android系统
 ---
 
-# Java Framework调试
+# Android 系统代码调试方法
 
-## 建立连接
+Android 系统开发中常用的调试手段分为两层：Java Framework 层使用 `jdb` 通过 JDWP 协议调试，Native 层使用 `lldb` 进行远程调试。[[gdb调试器的使用|gdb]] 也可用于 Native 进程调试。
+
+## Java Framework 调试
+
+### 建立连接
 
 #### 查看所有可调式的java进程
 ```sh
@@ -38,7 +42,7 @@ jdb -attach localhost:8700
 use frameworks/base/services/core/java
 ```
 
-## 代码调试
+### 代码调试
 
 #### 通过方法名设置断点
 ```jdb
@@ -87,9 +91,9 @@ threads
 thread <id>
 ```
 
-# Native Framework调试
+## Native Framework 调试
 
-## 建立连接
+### 建立连接
 
 #### 启动调试代理
 在目标设备上启动 LLDB 远程调试服务，并附加到542进程，暴露到5039端口
@@ -129,7 +133,8 @@ gdb-remote 5039
 settings set target.source-map /buildbot/aosp /home/user/aosp
 ```
 
-## 代码调试
+### 代码调试（Native）
+
 #### 根据函数名设置断点
 ```lldb
 breakpoint set --name SurfaceFlinger::commit
@@ -182,5 +187,12 @@ register read
 image list
 ```
 
-# 常见问题
+## 常见问题
 
+> [!TODO] 待补充
+
+## 相关笔记
+
+- [[gdb调试器的使用]]
+- [[吉利日志分析思路与步骤]]
+- [[Android启动流程]]

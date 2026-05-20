@@ -3,6 +3,9 @@ tags:
   - Android系统
 ---
 
+# ROC-RK3328-PC 编译、烧录、调试
+
+Firefly ROC-RK3328-PC 开发板的 AOSP 编译、固件烧录与调试环境搭建记录。包含脚本编译和手动分步编译两种方式。
 
 > [!INFO] 参考链接
 > 官网Wiki：https://wiki.t-firefly.com/zh_CN/ROC-RK3328-PC/android_adb.html
@@ -124,3 +127,9 @@ WORKDIR /aosp
 # 设置默认命令
 CMD ["bash"]
 ```
+
+## 相关笔记
+
+- [[Android系统级应用打包流程]]
+- [[Android启动流程]]
+- [[Docker Compose容器编排]]

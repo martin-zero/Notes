@@ -56,7 +56,7 @@ services:  # 所有要运行的服务容器在这里统一定义
 |docker compose up|构建并启动所有服务（前台运行）|
 |docker compose up -d|构建并启动所有服务（后台运行）|
 |docker compose down|停止并移除所有服务|
-|ocker compose restart|重启所有服务|
+|docker compose restart|重启所有服务|
 |docker compose stop|停止服务，但不移除容器|
 |docker compose start|启动已停止的服务|
 
@@ -68,3 +68,7 @@ services:  # 所有要运行的服务容器在这里统一定义
 |docker compose logs|查看所有服务日志|
 |docker compose logs -f|实时追踪日志|
 |docker compose top|查看服务进程状态|
+
+## 相关笔记
+
+- [[ROC-RK3328-PC编译、烧录、调试]]

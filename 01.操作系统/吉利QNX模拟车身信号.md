@@ -3,6 +3,11 @@ tags:
   - 吉利
 ---
 
+# 吉利 QNX 模拟车身信号
+
+使用 `VehicleTool` 工具在 QNX 侧模拟车身信号，用于开发过程中绕过真实台架进行功能验证。
+
+## 常用命令
 
 QNX模拟车身信号，收( -r)发(-w)。carmode切到0，usgmode（ -p 557849093）切到driving(-d 13).
 VehicleTool -r -s 1 -p 557849092 -a 0 -d 0 && VehicleTool -r -s 1 -p 557849093 -a 0 -d 13
@@ -35,3 +40,8 @@ Usage: VehicleTool [-i num] [-c] [-v] [-h] [-b] [-w/r] [-s] [-t time|interval] [
     -D Open the debug log in serial of vs. e.g.  open  : VehicleTool -D 1
                                                  close : VehicleTool -D 0
     -h (help): Print usage.
+
+## 相关笔记
+
+- [[吉利日志分析思路与步骤]]
+- [[吉利cc值修改]]
