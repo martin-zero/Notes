@@ -68,7 +68,7 @@ make -j8
 
 # 烧录
 ## Android10使用upgrade_tool烧录各个模块
-```SHELL
+```sh
 sudo upgrade_tool di -b boot.img
 sudo upgrade_tool di -dtbo dtbo.img  
 sudo upgrade_tool di -misc misc.img
