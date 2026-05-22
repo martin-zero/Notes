@@ -525,10 +525,3 @@ private void run() {
     }
 ```
 
-
-
-## 相关笔记
-
-- [[Android ServiceManager与Binder机制]]
-- [[Android系统代码调试方法]]
-- [[Android cmdline参数说明]]

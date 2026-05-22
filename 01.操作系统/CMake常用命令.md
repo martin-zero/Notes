@@ -14,9 +14,3 @@ CMake 是跨平台的 C/C++ 构建系统生成器，与 [[Makefile语法|Makefil
 ```sh
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
 ```
-
-## 相关笔记
-
-- [[Makefile语法]]
-- [[clang 编译器语法]]
-- [[Android.bp文件格式]]

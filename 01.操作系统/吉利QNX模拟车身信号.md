@@ -40,8 +40,3 @@ Usage: VehicleTool [-i num] [-c] [-v] [-h] [-b] [-w/r] [-s] [-t time|interval] [
     -D Open the debug log in serial of vs. e.g.  open  : VehicleTool -D 1
                                                  close : VehicleTool -D 0
     -h (help): Print usage.
-
-## 相关笔记
-
-- [[吉利日志分析思路与步骤]]
-- [[吉利cc值修改]]

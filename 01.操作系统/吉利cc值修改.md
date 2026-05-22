@@ -34,8 +34,3 @@ bosch_reset
 > [!IMPORTANT] 注意事项
 > 台架输入 CC 和手动命令行输入 CC 不能混用。
 > UM=Abandoned 再发送 UM=Driving 后，SCC 会覆盖当前 SOC 的 CC 配置，这是正常的流程。
-
-## 相关笔记
-
-- [[吉利QNX模拟车身信号]]
-- [[吉利日志分析思路与步骤]]

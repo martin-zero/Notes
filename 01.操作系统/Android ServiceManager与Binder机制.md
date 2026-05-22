@@ -308,9 +308,3 @@ sp<IServiceManager> defaultServiceManager() {
 明天那篇我把这个锅补完——**`/dev/binder` 这个设备节点，到底是怎么被打开、被 mmap、被驱动认证身份的**。讲完你以后看到 binder 内核驱动代码就不再发怵了。
 
 下篇见。
-
-## 相关笔记
-
-- [[Android启动流程]]
-- [[Linux进程间通信]]
-- [[Android系统代码调试方法]]

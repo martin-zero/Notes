@@ -74,9 +74,3 @@ make MySystemApp -j8
 ```
 
 如果Android.bp中声明了`privileged: true`则会构建在`/system/priv-app/`目录中，否则则构建在`/system/app/`中。
-
-## 相关笔记
-
-- [[Android.bp文件格式]]
-- [[Android启动流程]]
-- [[ROC-RK3328-PC编译、烧录、调试]]

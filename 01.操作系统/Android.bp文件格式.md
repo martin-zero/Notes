@@ -99,9 +99,3 @@ filegroup {
 ```
 
 > 官方文档：[Android.bp Reference](https://source.android.com/docs/setup/reference/androidbp?hl=zh-cn)
-
-## 相关笔记
-
-- [[Android系统级应用打包流程]]
-- [[Makefile语法]]
-- [[CMake常用命令]]
