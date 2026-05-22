@@ -58,8 +58,3 @@ git checkout 主分支名称
 git merge 分支名称
 git push
 ```
-
-## 相关笔记
-
-- [[SVN常用命令]]
-- [[Vim常用功能]]

@@ -5,7 +5,7 @@ tags:
 ![](assets/Android启动流程/file-20260310153327161.png)
 
 # Kernel
-#TODO 
+> [!TODO] 待补充
 
 # Init
 Init进程是Android用户空间的第一个进程，进程号为1，其main.cpp的代码路径为[system/core/init/main.cpp](https://cs.android.com/android/platform/superproject/+/android-latest-release:system/core/init/main.cpp;l=1?q=init%2Fmain&ss=android%2Fplatform%2Fsuperproject&hl=zh-cn)，main函数中init分为三个阶段：

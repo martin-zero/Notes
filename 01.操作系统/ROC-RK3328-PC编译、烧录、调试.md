@@ -122,9 +122,3 @@ WORKDIR /aosp
 CMD ["bash"]
 
 ```
-
-## 相关笔记
-
-- [[Android系统级应用打包流程]]
-- [[Android启动流程]]
-- [[Docker Compose容器编排]]

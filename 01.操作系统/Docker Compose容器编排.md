@@ -68,7 +68,3 @@ services:  # 所有要运行的服务容器在这里统一定义
 |docker compose logs|查看所有服务日志|
 |docker compose logs -f|实时追踪日志|
 |docker compose top|查看服务进程状态|
-
-## 相关笔记
-
-- [[ROC-RK3328-PC编译、烧录、调试]]

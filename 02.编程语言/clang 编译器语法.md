@@ -44,8 +44,3 @@ clang main.o -o main
 ```sh
 clang -g main.c -o main
 ```
-
-## 相关笔记
-
-- [[CMake常用命令]]
-- [[gdb调试器的使用]]
