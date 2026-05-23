@@ -1,9 +1,10 @@
 ---
 tags:
   - Android系统
+  - ServiceManager
 原文链接: https://mp.weixin.qq.com/s/fbaovmnp4Im7uwej9pnYSQ
 ---
-### ServiceManager 自举笔记
+
 
 #### 核心一句话
 

@@ -214,7 +214,7 @@ int SetupSelinux(char** argv) {
 ```
 
 ## SecondStage
-SecondStage为Init流程中最重要的一个阶段，这个阶段主要负责**解析init.rc文件，并根据init.rc文件启动Android系统native层的服务**，其中 `servicemanager` 与 `zygote` 就是在这里起来的。详见 [[Android ServiceManager与Binder机制|ServiceManager 启动流程]]。
+SecondStage为Init流程中最重要的一个阶段，这个阶段主要负责**解析init.rc文件，并根据init.rc文件启动Android系统native层的服务**，其中 `servicemanager` 与 `zygote` 就是在这里起来的。详见 [[Android ServiceManager|ServiceManager 启动流程]]。
 完成以上步骤后init不会退出，而是进入了一个事件循环。主要监听**property 变化**，**service 进程状态**等事件。
 ```cpp
 int SecondStageMain(int argc, char** argv) {
