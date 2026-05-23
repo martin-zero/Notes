@@ -4,15 +4,13 @@ tags:
   - ServiceManager
 原文链接: https://mp.weixin.qq.com/s/fbaovmnp4Im7uwej9pnYSQ
 ---
-
-
-#### 核心一句话
+## 核心一句话
 
 > ServiceManager 不是被注册的，它是被 Binder 驱动通过 `BINDER_SET_CONTEXT_MGR_EXT` 这条 ioctl **钦点**的。固定句柄 0，全局唯一，系统启动比 zygote 还早。
 
 ---
 
-#### 第一层：谁拉起 ServiceManager？
+## 第一层：谁拉起 ServiceManager？
 
 - **拉起者**：init 进程（pid 1）解析 `servicemanager.rc`
 - **关键配置项**：
@@ -23,7 +21,7 @@ tags:
 
 ---
 
-#### 第二层：main() 干了什么？
+## 第二层：main() 干了什么？
 
 |步骤|代码|要点|
 |---|---|---|
@@ -37,7 +35,7 @@ tags:
 
 ---
 
-#### 第三层：客户端怎么找到 SM？
+## 第三层：客户端怎么找到 SM？
 
 ```
 defaultServiceManager()
@@ -51,12 +49,12 @@ defaultServiceManager()
 
 ---
 
-#### 「鸡生蛋」的解法
+## 「鸡生蛋」的解法
 
 上层没法解的自举问题，**下沉到内核硬编码**。SM 不走"先找 SM 再注册"的普通流程，而是让 Binder 驱动给它开后门，这是**约定优于配置的内核级实现**。
 
 ---
 
-#### SM 崩溃会怎样？
+## SM 崩溃会怎样？
 
 `critical` 标记让 init 重启 SM，同时 `.rc` 里的 `onrestart restart` 把所有缓存了旧 binder 引用的 native 服务一并重启。Java 层 SystemServer **不会**自动重启，线上稳定恢复通常需要整机软重启。
