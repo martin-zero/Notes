@@ -17,6 +17,12 @@ class Foo : public RefBase {
 sp<Foo> sp1 = new Foo();
 sp<Foo> sp2 = sp1; // +1
 
+// 弱引用 + 提升
+wp<Foo> wp1 = sp1;
+sp<Foo> promoted = wp1.promote();
+if (promoted != nullptr) {
+    promoted->bar();
+}
 
 ```
 
