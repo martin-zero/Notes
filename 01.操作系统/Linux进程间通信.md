@@ -1,6 +1,6 @@
 ---
 tags:
-  - Linux基础
+  - Linux/IPC通信
 ---
 
 # Linux 进程间通信

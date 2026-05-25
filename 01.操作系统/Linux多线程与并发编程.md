@@ -1,6 +1,6 @@
 ---
 tags:
-  - Linux基础
+  - Linux/多线程
 ---
 
 # Linux 多线程编程

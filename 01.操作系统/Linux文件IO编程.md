@@ -1,6 +1,6 @@
 ---
 tags:
-  - Linux基础
+  - Linux/文件IO
 date: 2026-05-16
 ---
 
