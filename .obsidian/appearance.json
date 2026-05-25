@@ -1,8 +1,8 @@
 {
-  "theme": "system",
+  "theme": "obsidian",
   "interfaceFontFamily": "JetBrains Mono,Google Sans Code",
   "translucency": false,
-  "cssTheme": "",
+  "cssTheme": "Border",
   "nativeMenus": true,
   "showRibbon": true,
   "textFontFamily": "",
