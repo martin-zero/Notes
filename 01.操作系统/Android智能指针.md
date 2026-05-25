@@ -3,4 +3,4 @@ tags:
   - Android系统/Native
 ---
 
->Android的智能指针(sp,wp)与C++
+>Android的智能指针是为了解决
