@@ -2,7 +2,7 @@
   "theme": "obsidian",
   "interfaceFontFamily": "JetBrains Mono,Google Sans Code",
   "translucency": false,
-  "cssTheme": "Catppuccin",
+  "cssTheme": "Terminal",
   "nativeMenus": true,
   "showRibbon": true,
   "textFontFamily": "",
