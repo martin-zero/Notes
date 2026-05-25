@@ -12,6 +12,12 @@ tags:
 class Foo : public RefBase {
 	public: void bar() {} 
 };
+
+// 强引用
+sp<Foo> sp1 = new Foo();
+sp<Foo> sp2 = sp1; // +1
+
+
 ```
 
 # 原理
