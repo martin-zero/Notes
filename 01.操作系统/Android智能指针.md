@@ -68,6 +68,7 @@ struct weakref_impl {
 
 # 原理
 
+
 # 与 C++ 智能指针对比
 
 |维度|Android sp/wp|C++ shared_ptr/weak_ptr|
@@ -86,8 +87,3 @@ struct weakref_impl {
 |跨平台可用性|仅 Android / AOSP|全平台|
 
 > 核心差异：Android sp/wp 是**侵入式**引用计数——计数嵌入对象本身（通过继承 `RefBase`）；C++ `shared_ptr` 是**非侵入式**——计数存于独立控制块，对象本身无感知。
-
-## 何时选用 Android sp/wp
-
-- 在 **AOSP / Android Native** 层开发（Framework、HAL、JNI 等），优先使用 `sp/wp`，与系统代码风格一致，且无需额外引入标准库
-- 纯 C++ 项目或跨平台代码，优先使用标准库的 `shared_ptr/weak_ptr`，兼容性更好，且支持更多特性（自定义删除器、`make_shared`、数组等）
