@@ -1,6 +1,6 @@
 ---
 tags:
-  - Linux
+  - Linux日用
 date: 2026-05-25
 ---
 
