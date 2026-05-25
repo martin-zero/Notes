@@ -1,6 +1,6 @@
 ---
 tags:
-  - Linux/多线程
+  - Linux开发/多线程
 ---
 
 # Linux 多线程编程
