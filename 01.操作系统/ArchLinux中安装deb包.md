@@ -1,6 +1,6 @@
 ---
 tags:
-  - Linux基础
+  - Linux
   - ArchLinux
 date: 2026-05-23
 ---
