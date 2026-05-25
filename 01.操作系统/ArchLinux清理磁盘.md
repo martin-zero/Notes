@@ -149,12 +149,6 @@ rm -rf ~/.cache/thumbnails/*
 
 # 7. 查找大文件
 
-安装：
-
-```
-sudo pacman -S ncdu
-```
-
 扫描系统：
 
 ```
