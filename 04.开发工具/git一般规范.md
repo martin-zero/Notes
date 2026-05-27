@@ -58,3 +58,5 @@ git checkout 主分支名称
 git merge 分支名称
 git push
 ```
+
+## 6. 查看git历史
