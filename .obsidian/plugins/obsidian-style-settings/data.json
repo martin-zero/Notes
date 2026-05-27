@@ -50,5 +50,6 @@
   "Components@@restored-scrollbars": true,
   "Appearance-light@@card-border-radius-light": "8px",
   "Appearance-light@@card-shadow-light": "\"\"",
-  "Appearance-light@@Active-states-file-explorer-select-light": "activated-file-accent-light"
+  "Appearance-light@@Active-states-file-explorer-select-light": "activated-file-accent-light",
+  "cupertino@@colorful-frame": false
 }

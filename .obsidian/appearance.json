@@ -1,8 +1,8 @@
 {
-  "theme": "obsidian",
+  "theme": "system",
   "interfaceFontFamily": "JetBrains Mono,Google Sans Code",
   "translucency": false,
-  "cssTheme": "Catppuccin",
+  "cssTheme": "Cupertino",
   "nativeMenus": true,
   "showRibbon": true,
   "textFontFamily": "",
