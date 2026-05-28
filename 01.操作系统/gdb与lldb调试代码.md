@@ -14,17 +14,17 @@ tags:
 
 ## 运行控制
 
-| 操作 | GDB | LLDB |
-|------|-----|------|
-| 运行 | `run` / `r` | `run` / `r` |
-| 继续 | `continue` / `c` | `continue` / `c` |
-| 单步进入函数 | `step` / `s` | `step` / `s` |
-| 单步跳过函数 | `next` / `n` | `next` / `n` |
-| 执行到返回 | `finish` / `fin` | `finish` / `fin` |
-| 单条汇编步入 | `stepi` / `si` | `stepi` / `si` |
-| 单条汇编跳过 | `nexti` / `ni` | `nexti` / `ni` |
-| 执行到指定行 | `until <line>` | `thread until <line>` |
-| 终止程序 | `kill` | `kill` |
+| 操作     | GDB              | LLDB                  |
+| ------ | ---------------- | --------------------- |
+| 运行     | `run` / `r`      | `run` / `r`           |
+| 继续     | `continue` / `c` | `continue` / `c`      |
+| 单步进入函数 | `step` / `s`     | `step` / `s`          |
+| 单步跳过函数 | `next` / `n`     | `next` / `n`          |
+| 执行到返回  | `finish` / `fin` | `finish` / `fin`      |
+| 单条汇编步入 | `stepi` / `si`   | `stepi` / `si`        |
+| 单条汇编跳过 | `nexti` / `ni`   | `nexti` / `ni`        |
+| 执行到指定行 | `until <line>`   | `thread until <line>` |
+| 终止程序   | `kill`           | `kill`                |
 
 ## 断点
 
