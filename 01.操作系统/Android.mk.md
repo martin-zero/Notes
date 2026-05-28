@@ -20,9 +20,6 @@ date: 2026-05-28
 - **LOCAL_COPY_HEADERS:** 导出头文件。
 - **LOCAL_COPY_HEADERS_TO:** 头文件输出目录。
 
-# 编译类型
-
-
 # 示例
 ```Android.mk
 # 指定当前AndroiAndroid.mk路径
@@ -54,4 +51,6 @@ LOCAL_CFLAGS := -Wall -Werror
 include $(BUILD_SHARED_LIBRARY)
 ```
 
-# 编译输出类型
+
+> [!TODO]
+> 在实际开发中遇到补充
