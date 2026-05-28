@@ -1,4 +1,4 @@
-# 常见结构
+# 基本结构
 
 ```mk
 LOCAL_PATH := $(call my-dir)
@@ -15,3 +15,5 @@ include $(BUILD_SHARED_LIBRARY)
 - **LOCAL_MODULE:** 定义模块名称。
 - **LOCAL_SRC_FILES:** 定义模块的源文件。
 - **include $(BUILD_SHARED_LIBRARY):** 编译为动态库
+
+# 
