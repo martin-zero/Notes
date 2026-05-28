@@ -51,5 +51,6 @@
   "Appearance-light@@card-border-radius-light": "8px",
   "Appearance-light@@card-shadow-light": "\"\"",
   "Appearance-light@@Active-states-file-explorer-select-light": "activated-file-accent-light",
-  "cupertino@@colorful-frame": true
+  "cupertino@@colorful-frame": false,
+  "cupertino@@adaptive-mode-off": true
 }
