@@ -52,5 +52,6 @@
   "Appearance-light@@card-shadow-light": "\"\"",
   "Appearance-light@@Active-states-file-explorer-select-light": "activated-file-accent-light",
   "cupertino@@colorful-frame": false,
-  "cupertino@@adaptive-mode-off": true
+  "cupertino@@adaptive-mode-off": true,
+  "cupertino@@tab-floating": false
 }
