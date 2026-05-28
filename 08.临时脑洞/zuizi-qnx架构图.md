@@ -147,3 +147,24 @@ graph TB
     class app,app_monitor accent4
 ```
 
+
+
+# SPI信号流动
+```mermaid
+flowchart LR
+    A["1️⃣ 定义数据结构<br/>Interface/SPICommProxy.h"] --> B["2️⃣ SPI分发<br/>SPICommServer.cpp"]
+    B --> C["3️⃣ 业务Server订阅<br/>GaugeServer.cpp"]
+    C --> D["4️⃣ 业务逻辑处理<br/>GaugeServer.cpp"]
+    D --> E["5️⃣ 定义输出结构<br/>Interface/GaugeProxy.h"]
+    E --> F["6️⃣ HMI订阅+绑定Kanzi<br/>FunctionGaugeInfoManager.cpp<br/>Kanzi_IF.h"]
+```
+
+# CAN信号流动
+```mermaid
+flowchart LR
+    A["1️⃣ Proto定义<br/>sdk/idl/protobuf/*.proto"] --> B["2️⃣ VehicleService配置<br/>(Bosch 外部，可能不需要动)"]
+    B --> C["3️⃣ 消费者订阅<br/>新Server或现有Server.cpp"]
+    C --> D["4️⃣ 业务处理<br/>Server.cpp"]
+    D --> E["5️⃣ 输出通知<br/>Interface/xxxProxy.h"]
+    E --> F["6️⃣ HMI订阅<br/>FunctionXxxManager.cpp"]
+```
