@@ -60,3 +60,6 @@ git push
 ```
 
 ## 6. 查看git历史
+```sh
+git reflog
+```
