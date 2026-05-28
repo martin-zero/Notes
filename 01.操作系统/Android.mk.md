@@ -15,7 +15,7 @@ date: 2026-05-28
 - **LOCAL_CPPFLAGS:** C++编译器标志（例如`-std=c++11`）。
 - **LOCAL_STATIC_LIBRARIES:** 静态库依赖。
 - **LOCAL_SHARED_LIBRARIES:** 动态库依赖。
-- **LOCAL_LDLIBS:** 链接库。
+- **LOCAL_LDLIBS:** 链接库(例如`-llog`表示链接`liblog.so`)。
 - **LOCAL_PRELINK_MODULE:** 是否预链接(bool类型)。
 - **LOCAL_COPY_HEADERS:** 导出头文件。
 - **LOCAL_COPY_HEADERS_TO:** 头文件输出目录。
