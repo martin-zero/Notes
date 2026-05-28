@@ -28,20 +28,20 @@ tags:
 
 ## 断点
 
-| 操作 | GDB | LLDB |
-|------|-----|------|
-| 函数断点 | `break foo` / `b foo` | `breakpoint set -n foo` / `b foo` |
-| 行断点 | `break file.c:42` / `b file.c:42` | `b file.c:42` |
-| 地址断点 | `b *0x7fff5fbff000` | `b -a 0x7fff5fbff000` |
-| 条件断点 | `b foo if x > 10` | `b foo -c 'x > 10'` |
-| 临时断点 | `tbreak foo` / `tb foo` | `b foo -o` |
-| 列出断点 | `info breakpoints` / `i b` | `breakpoint list` / `br list` |
-| 禁用断点 | `disable <num>` | `breakpoint disable <id>` |
-| 启用断点 | `enable <num>` | `breakpoint enable <id>` |
-| 删除断点 | `delete <num>` / `d <num>` | `breakpoint delete <id>` |
-| 删除全部断点 | `delete` | `breakpoint delete` |
-| 忽略断点 N 次 | `ignore <num> <count>` | `b foo -i 5` |
-| 断点命令列表 | `commands <num>` | `breakpoint command add <id>` |
+| 操作       | GDB                               | LLDB                              |
+| -------- | --------------------------------- | --------------------------------- |
+| 函数断点     | `break foo` / `b foo`             | `breakpoint set -n foo` / `b foo` |
+| 行断点      | `break file.c:42` / `b file.c:42` | `b file.c:42`                     |
+| 地址断点     | `b *0x7fff5fbff000`               | `b -a 0x7fff5fbff000`             |
+| 条件断点     | `b foo if x > 10`                 | `b foo -c 'x > 10'`               |
+| 临时断点     | `tbreak foo` / `tb foo`           | `b foo -o`                        |
+| 列出断点     | `info breakpoints` / `i b`        | `breakpoint list` / `br list`     |
+| 禁用断点     | `disable <num>`                   | `breakpoint disable <id>`         |
+| 启用断点     | `enable <num>`                    | `breakpoint enable <id>`          |
+| 删除断点     | `delete <num>` / `d <num>`        | `breakpoint delete <id>`          |
+| 删除全部断点   | `delete`                          | `breakpoint delete`               |
+| 忽略断点 N 次 | `ignore <num> <count>`            | `b foo -i 5`                      |
+| 断点命令列表   | `commands <num>`                  | `breakpoint command add <id>`     |
 
 ## 监视点
 
