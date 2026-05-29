@@ -5,16 +5,21 @@ filters:
 views:
   - type: table
     name: 按标签浏览
-    columns:
+    order:
       - file.name
+      - file.ctime
       - file.tags
     sort:
       - property: file.tags
         direction: ASC
       - property: file.name
         direction: ASC
+    columns:
+      - file.name
+      - file.tags
   - type: list
     name: 按名称浏览
     sort:
       - property: file.name
         direction: ASC
+    indentProperties: true
