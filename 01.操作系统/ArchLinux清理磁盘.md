@@ -1,7 +1,6 @@
 ---
 tags:
   - Linux日用
-date: 2026-05-25
 ---
 
 # 1. 清理 pacman 缓存
