@@ -1,0 +1,18 @@
+filters:
+  and:
+    - file.tags.contains("Linux日用")
+    - '!file.tags.contains("MOC")'
+views:
+  - type: table
+    name: 按标签浏览
+    columns:
+      - file.name
+      - file.tags
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: list
+    name: 按名称浏览
+    sort:
+      - property: file.name
+        direction: ASC

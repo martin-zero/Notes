@@ -1,12 +1,8 @@
----
-tags:
----
-
 # Linux 开发
 
-> 自动聚合 `#Linux开发`、`#Linux日用`、`#编译工具`、`#Docker`、`#调试` 标签的笔记。新建笔记打上标签即自动出现。
+> Linux 系统编程的核心链路：**文件 IO → 进程间通信 → 多线程 → 网络编程**。以下数据库自动聚合所有 `#Linux开发` 标签的笔记。
 
-```dataview
-LIST FROM #Linux开发 OR #Linux日用 OR #编译工具 OR #Docker OR #调试
-SORT file.name ASC
-```
+
+## 笔记清单
+
+![Linux开发数据库](../10.数据库/Linux开发数据库.base)
