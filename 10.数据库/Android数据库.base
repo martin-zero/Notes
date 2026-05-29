@@ -8,3 +8,8 @@ views:
     order:
       - file.name
       - file.tags
+    sort:
+      - property: file.tags
+        direction: DESC
+  - type: list
+    name: 视图
