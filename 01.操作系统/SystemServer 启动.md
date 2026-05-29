@@ -97,8 +97,3 @@ private void run() {
 | 引导服务 | `startBootstrapServices` | AMS、PMS、PowerManager、DisplayManager |
 | 核心服务 | `startCoreServices` | BatteryService、UsageStatsService、WebViewUpdate |
 | 其他服务 | `startOtherServices` | WMS、InputManager、AudioService、NotificationManager |
-
-## 相关笔记
-- [[Android启动流程]] — 返回启动全链路导航
-- [[Zygote 进程]] — fork SystemServer 的父进程
-- [[Android Activity冷启动全链路]] — SystemServer 就绪后，第一个 Activity 如何启动

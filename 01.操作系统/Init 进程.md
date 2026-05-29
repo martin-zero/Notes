@@ -286,8 +286,3 @@ int SecondStageMain(int argc, char** argv) {
     return 0;
 }
 ```
-
-## 相关笔记
-- [[Android启动流程]] — 返回启动全链路导航
-- [[ServiceManager自举原理]] — Init 拉起的第一个关键服务
-- [[Zygote 进程]] — Init 拉起的 Java 层入口进程

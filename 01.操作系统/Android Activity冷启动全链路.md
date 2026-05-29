@@ -5,7 +5,7 @@ tags:
 
 ## 核心一句话
 
-> 冷启动一个 Activity 至少 **6 次跨进程通信**（5 次 Binder + 1 次 socket），经过 4 个进程：Launcher、system_server、Zygote、新 App 进程。核心转折点是 `attachApplication`——新进程通过它向 AMS 报到，AMS 才知道该往哪发 `LaunchActivityItem`。
+> 冷启动一个 Activity 至少 **6 次跨进程通信**（5 次 Binder + 1 次 socket），经过 4 个进程：Launcher、system_server、[[Zygote 进程|Zygote]]、新 App 进程。核心转折点是 `attachApplication`——新进程通过它向 AMS 报到，AMS 才知道该往哪发 `LaunchActivityItem`。
 
 ---
 

@@ -1,0 +1,10 @@
+filters:
+  and:
+    - file.tags.contains("Android系统")
+    - '!file.tags.contains("MOC")'
+views:
+  - type: table
+    name: 表格
+    order:
+      - file.name
+      - file.tags

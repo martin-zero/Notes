@@ -40,7 +40,7 @@ clang main.o -o main
 ```
 
 ## 调试
-使用 `-g` 添加调试信息以供 [[gdb调试器的使用|gdb]]、lldb 调试。
+使用 `-g` 添加调试信息以供 [[gdb、lldb速查表|gdb]]、lldb 调试。
 ```sh
 clang -g main.c -o main
 ```

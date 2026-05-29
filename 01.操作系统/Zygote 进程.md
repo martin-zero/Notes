@@ -144,8 +144,3 @@ int main(int argc, char* const argv[])
         }
     }
 ```
-
-## 相关笔记
-- [[Android启动流程]] — 返回启动全链路导航
-- [[Init 进程]] — 拉起 Zygote 的父进程
-- [[SystemServer 启动]] — Zygote fork 出的第一个 Java 进程
