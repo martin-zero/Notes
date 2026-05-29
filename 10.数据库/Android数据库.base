@@ -9,6 +9,8 @@ views:
       - file.name
       - file.tags
     sort:
+      - property: file.name
+        direction: DESC
       - property: file.tags
         direction: DESC
   - type: list

@@ -5,7 +5,7 @@ tags:
 
 # SystemServer 启动
 
-> SystemServer 是 Android Java 世界的核心，**所有系统服务（AMS、PMS、WMS 等）都在这里启动**。它由 [[Zygote 进程|Zygote]] fork 出来后通过反射运行 `SystemServer.main()`。没有 SystemServer，应用无法启动、窗口无法显示、广播无法分发。
+> SystemServer 是 Android Java 世界的核心，**所有系统服务（AMS、PMS、WMS 等）都在这里启动**。它由 [[Zygote 流程分析|Zygote]] fork 出来后通过反射运行 `SystemServer.main()`。没有 SystemServer，应用无法启动、窗口无法显示、广播无法分发。
 
 Zygote fork SystemServer 后反射运行 [frameworks/base/services/java/com/android/server/SystemServer.java](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/services/java/com/android/server/SystemServer.java;l=329;drc=61197364367c9e404c7da6900658f1b16c42d0da;bpv=0;bpt=1?q=SystemServer&sq=&ss=android%2Fplatform%2Fsuperproject%2Fmain&hl=zh-cn) 的 `main` 方法，创建 SystemServer 对象并执行其 `run` 方法。
 

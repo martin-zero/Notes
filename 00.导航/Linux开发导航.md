@@ -1,6 +1,5 @@
 ---
 tags:
-  - MOC
 ---
 
 # Linux 开发

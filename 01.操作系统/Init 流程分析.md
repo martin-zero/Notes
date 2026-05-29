@@ -5,7 +5,7 @@ tags:
 
 # Init 进程
 
-> Init 是 Android 用户空间的第一个进程（PID 1），负责挂载文件系统、启用 SELinux、解析 init.rc 并拉起所有 native 服务（包括 [[ServiceManager自举原理|ServiceManager]] 和 [[Zygote 进程|Zygote]]）。理解 Init 是理解 Android 启动全链路的起点。
+> Init 是 Android 用户空间的第一个进程（PID 1），负责挂载文件系统、启用 SELinux、解析 init.rc 并拉起所有 native 服务（包括 [[ServiceManager自举原理|ServiceManager]] 和 [[Zygote 流程分析|Zygote]]）。理解 Init 是理解 Android 启动全链路的起点。
 
 代码路径：[system/core/init/main.cpp](https://cs.android.com/android/platform/superproject/+/android-latest-release:system/core/init/main.cpp;l=1?q=init%2Fmain&ss=android%2Fplatform%2Fsuperproject&hl=zh-cn)
 
@@ -209,7 +209,7 @@ int SetupSelinux(char** argv) {
 
 ## SecondStage
 
-Init 流程中最重要的阶段，负责**解析 init.rc 文件并启动 native 层服务**。[[ServiceManager自举原理|ServiceManager]] 与 [[Zygote 进程|Zygote]] 就在这里被拉起。
+Init 流程中最重要的阶段，负责**解析 init.rc 文件并启动 native 层服务**。[[ServiceManager自举原理|ServiceManager]] 与 [[Zygote 流程分析|Zygote]] 就在这里被拉起。
 
 完成后 init 进入事件循环，监听 **property 变化**、**service 进程状态**等事件。
 
