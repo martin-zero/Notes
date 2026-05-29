@@ -2,7 +2,7 @@
   "version": 4,
   "homepages": {
     "Main Homepage": {
-      "value": "我的",
+      "value": "主页",
       "kind": "File",
       "openOnStartup": true,
       "openMode": "Replace all open notes",
