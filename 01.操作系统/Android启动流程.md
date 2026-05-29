@@ -5,7 +5,7 @@ tags:
 
 # Android 启动流程
 
-> 从按下电源键到 Launcher 显示，Android 启动经过 **BootROM → Bootloader → Kernel → [[Android Init 流程分析|Init]] → [[Zygote 流程分析|Zygote]] → [[Android SystemServer 启动流程分析|SystemServer]] → Launcher**。本文是整个启动链路的导航页。
+> 从按下电源键到 Launcher 显示，Android 启动经过 **BootROM → Bootloader → Kernel → [[Android Init 流程分析|Init]] → [[Zygote 流程分析|Zygote]] → [[SystemServer 启动流程分析|SystemServer]] → Launcher**。本文是整个启动链路的导航页。
 
 ![](assets/Android启动流程/file-20260310153327161.png)
 
@@ -13,8 +13,8 @@ tags:
 
 1. **Kernel** — 内核启动，初始化硬件，挂载根文件系统，最终执行 `/init`（TODO）
 2. **[[Android Init 流程分析]]** — 用户空间第一个进程（PID 1），解析 init.rc，拉起 [[ServiceManager自举原理|ServiceManager]] 和 [[Zygote 流程分析|Zygote]]
-3. **[[Zygote 流程分析]]** — 所有 Java 进程的父进程，预加载 Framework 资源，fork 出 [[Android SystemServer 启动流程分析|SystemServer]]
-4. **[[Android SystemServer 启动流程分析]]** — 分三批启动 AMS、PMS、WMS 等所有 Java 层系统服务
+3. **[[Zygote 流程分析]]** — 所有 Java 进程的父进程，预加载 Framework 资源，fork 出 [[SystemServer 启动流程分析|SystemServer]]
+4. **[[SystemServer 启动流程分析]]** — 分三批启动 AMS、PMS、WMS 等所有 Java 层系统服务
 
 ServiceManager 的启动时机特殊：它在 Init 阶段就被拉起，比 Zygote 更早。[[ServiceManager自举原理|ServiceManager 不是被注册的，而是被 Binder 驱动钦点的]]——固定句柄 0，驱动级保证排他。
 

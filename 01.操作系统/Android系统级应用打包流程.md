@@ -15,7 +15,7 @@ tags:
 
 ## 3. 编写 Android.bp 文件
 
-在项目根目录下创建 [[Android.bp文件格式]] 文件。
+在项目根目录下创建 [[Android.bp]] 文件。
 
 ```bp
 android_app {

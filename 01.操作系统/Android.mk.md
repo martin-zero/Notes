@@ -6,7 +6,7 @@ date: 2026-05-28
 
 # Android.mk
 
-> Android.mk 是 AOSP 传统 Makefile 风格的模块定义方式，其继任者 [[Android.bp文件格式|Android.bp]] 采用类 JSON 声明式语法。
+> Android.mk 是 AOSP 传统 Makefile 风格的模块定义方式，其继任者 [[Android.bp]] 采用类 JSON 声明式语法。
 
 # 常用变量
 - **LOCAL_PATH := \$(call my-dir):** 当前模块路径，通常直接使用`$(call my-dir)`。
