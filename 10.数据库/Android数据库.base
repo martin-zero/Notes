@@ -17,6 +17,8 @@ views:
     columns:
       - file.name
       - file.tags
+    columnSize:
+      file.name: 344
   - type: list
     name: 按名称浏览
     sort:

@@ -5,14 +5,22 @@ filters:
 views:
   - type: table
     name: 按标签浏览
-    columns:
+    order:
       - file.name
+      - file.ctime
       - file.tags
     sort:
+      - property: tags
+        direction: ASC
       - property: file.tags
         direction: ASC
       - property: file.name
         direction: ASC
+    columns:
+      - file.name
+      - file.tags
+    columnSize:
+      file.name: 333
   - type: list
     name: 按名称浏览
     sort:
