@@ -1,6 +1,7 @@
 ---
 tags:
   - Android系统/systemserver
+  - Android系统/流程分析
 ---
 
 # SystemServer 启动

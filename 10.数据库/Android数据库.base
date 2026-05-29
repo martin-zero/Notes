@@ -4,14 +4,17 @@ filters:
     - '!file.tags.contains("MOC")'
 views:
   - type: table
-    name: 表格
-    order:
+    name: 按标签浏览
+    columns:
       - file.name
       - file.tags
     sort:
-      - property: file.name
-        direction: DESC
       - property: file.tags
-        direction: DESC
+        direction: ASC
+      - property: file.name
+        direction: ASC
   - type: list
-    name: 视图
+    name: 按名称浏览
+    sort:
+      - property: file.name
+        direction: ASC
