@@ -6,7 +6,7 @@ date: 2026-05-06
 
 # Makefile 语法
 
-Makefile 定义了编译规则供 `make` 执行。跨平台项目中通常用 [[CMake常用命令|CMake]] 生成 Makefile 而非手写，但理解 Makefile 语法有助于看懂构建日志和排查编译问题。
+Makefile 定义了编译规则供 `make` 执行。跨平台项目中通常用 [[../04.开发工具/CMake常用命令|CMake]] 生成 Makefile 而非手写，但理解 Makefile 语法有助于看懂构建日志和排查编译问题。
 
 ## 规则
 Makefile由若干条规则构成，每条规则指出一个目标文件和若干个依赖文件，以及生成目标文件的命令。

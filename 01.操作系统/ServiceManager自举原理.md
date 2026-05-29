@@ -11,7 +11,7 @@ tags:
 
 ## 第一层：谁拉起 ServiceManager？
 
-- **拉起者**：[[Init 流程分析|init 进程]]（pid 1）解析 `servicemanager.rc`
+- **拉起者**：[[Android Init 流程分析|init 进程]]（pid 1）解析 `servicemanager.rc`
 - **关键配置项**：
     - `class core`：早期服务组，[[Zygote 流程分析|zygote]] 启动前就跑起来
     - `critical`：挂了 init 重启它；反复挂触发整机重启

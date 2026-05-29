@@ -6,7 +6,7 @@ tags:
 
 # Zygote 进程
 
-> Zygote 是 Android 中**所有 Java 进程的父进程**。它在 init.rc 中声明，由 [[Init 流程分析|Init]] 拉起，负责预加载 Framework 资源并 fork 出 [[SystemServer 启动流程分析|SystemServer]]。之后进入无限循环，通过 socket 等待 AMS 的 fork 指令来创建应用进程。
+> Zygote 是 Android 中**所有 Java 进程的父进程**。它在 init.rc 中声明，由 [[Android Init 流程分析|Init]] 拉起，负责预加载 Framework 资源并 fork 出 [[Android SystemServer 启动流程分析|SystemServer]]。之后进入无限循环，通过 socket 等待 AMS 的 fork 指令来创建应用进程。
 
 ## app_process
 

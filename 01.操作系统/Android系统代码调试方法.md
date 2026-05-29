@@ -5,7 +5,7 @@ tags:
 
 # Android 系统代码调试方法
 
-Android 系统开发中常用的调试手段分为两层：Java Framework 层使用 `jdb` 通过 JDWP 协议调试，Native 层使用 `lldb` 进行远程调试。[[gdb、lldb速查表|gdb]] 也可用于 Native 进程调试。
+Android 系统开发中常用的调试手段分为两层：Java Framework 层使用 `jdb` 通过 JDWP 协议调试，Native 层使用 `lldb` 进行远程调试。[[../04.开发工具/gdb、lldb速查表|gdb]] 也可用于 Native 进程调试。
 
 ## Java Framework 调试
 
