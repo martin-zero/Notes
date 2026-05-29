@@ -3,8 +3,6 @@ tags:
   - MOC
   - Android系统
 ---
-![Android数据库](../10.数据库/Android数据库.base)
-
 # Android 系统 — 笔记索引
 
 ## 启动流程
@@ -47,3 +45,6 @@ tags:
 - [[吉利cc值修改]] — 车机 CC 配置调试方法
 - [[吉利QNX模拟车身信号]] — VehicleTool 绕过台架验证
 - [[吉利日志分析思路与步骤]] — 蓝牙/USB/音频/休眠/ANR 各模块日志关键字
+
+# 数据库
+![Android数据库](../10.数据库/Android数据库.base)
