@@ -1,6 +1,6 @@
 ---
 tags:
-  - Linux开发/文件IO
+  - Linux/文件IO
 ---
 
 # Linux 文件 IO 编程

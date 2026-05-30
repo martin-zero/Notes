@@ -1,6 +1,6 @@
 ---
 tags:
-  - Linux开发/IPC通信
+  - Linux/进程管理与IPC通信
 ---
 
 # Linux 进程间通信
