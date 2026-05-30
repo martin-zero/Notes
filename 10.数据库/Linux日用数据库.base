@@ -11,7 +11,7 @@ views:
       - file.tags
     sort:
       - property: file.name
-        direction: ASC
+        direction: DESC
     columns:
       - file.name
       - file.tags
