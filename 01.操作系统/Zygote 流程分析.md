@@ -1,7 +1,7 @@
 ---
 tags:
   - Android系统/zygote
-  - Android系统/流程分析
+  - 流程分析
 ---
 
 # Zygote 进程

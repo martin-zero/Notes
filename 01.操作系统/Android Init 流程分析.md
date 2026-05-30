@@ -1,7 +1,7 @@
 ---
 tags:
   - Android系统/init
-  - Android系统/流程分析
+  - 流程分析
 ---
 
 # Init 进程
