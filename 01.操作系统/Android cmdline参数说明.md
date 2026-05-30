@@ -14,4 +14,4 @@ Android 的 **cmdline（kernel command line）** 是在内核启动时由 bootlo
 > - [ ] `androidboot.` 前缀参数说明
 
 
-
+需要重建
